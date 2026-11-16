@@ -95,7 +95,7 @@ export const products: Product[] = [
         id: "color", label: "Couleur carrosserie", available: true,
         options: [
           { id: "original", label: "Vert sauge d'origine", swatch: "oklch(0.86 0.07 140)", material: { names: BODY, color: [1, 1, 1, 1] } },
-          { id: "red", label: "Rouge Mahindra", swatch: "oklch(0.53 0.21 23)", material: { names: BODY, color: [1.6, 0.05, 0.06, 1] } },
+          { id: "red", label: "Rouge Mahindra", swatch: "oklch(0.53 0.21 23)", material: { names: BODY, color: [1, 0.04, 0.05, 1] } },
           { id: "green", label: "Vert agricole", swatch: "oklch(0.45 0.11 150)", material: { names: BODY, color: [0.25, 0.75, 0.35, 1] } },
           { id: "charcoal", label: "Anthracite", swatch: "oklch(0.22 0.005 260)", material: { names: BODY, color: [0.12, 0.12, 0.13, 1] } },
         ],
