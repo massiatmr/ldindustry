@@ -13,10 +13,10 @@ type MV = HTMLElement & {
 };
 
 const ORBITS: Record<CameraPreset, string> = {
-  front: "0deg 75deg auto",
-  rear: "180deg 75deg auto",
+  front: "180deg 75deg auto",
+  rear: "0deg 75deg auto",
   side: "90deg 78deg auto",
-  reset: "-35deg 72deg auto",
+  reset: "145deg 72deg auto",
 };
 
 export function MachineryViewer({ product, colorOption }: { product: Product; colorOption?: ConfigOption | undefined }) {
@@ -59,8 +59,7 @@ export function MachineryViewer({ product, colorOption }: { product: Product; co
   useEffect(() => {
     const m = colorOption?.material;
     if (!loaded || !m) return;
-    const mat = ref.current?.model?.materials.find((x) => x.name === m.name);
-    mat?.pbrMetallicRoughness.setBaseColorFactor(m.color);
+    ref.current?.model?.materials.filter((x) => m.names.includes(x.name)).forEach((x) => x.pbrMetallicRoughness.setBaseColorFactor(m.color));
   }, [loaded, colorOption]);
 
   const preset = (p: CameraPreset) => {

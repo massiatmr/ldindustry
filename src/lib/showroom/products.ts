@@ -19,7 +19,7 @@ export interface ConfigOption {
   id: string;
   label: string;
   /** Visual change applied to the GLB when supported. */
-  material?: { name: string; color: [number, number, number, number] };
+  material?: { names: string[]; color: [number, number, number, number] };
   swatch?: string;
 }
 
@@ -53,6 +53,8 @@ export interface Product {
   supportsExploded: boolean;
 }
 
+const BODY = ["tractor_body_pbr","tractor_paint_sage_x","tractor_paint_sage_x.001","tractor_paint_sage_x.002","tractor_paint_sage_x.003"];
+
 export const products: Product[] = [
   {
     slug: "tracteur-demo",
@@ -69,33 +71,33 @@ export const products: Product[] = [
       { k: "Type de moteur", v: "Diesel 4 cylindres (fictif)" },
       { k: "Transmission", v: "4WD (fictif)" },
       { k: "Poids", v: "≈ 3 000 kg (fictif)" },
-      { k: "Dimensions L × l × H", v: "3,67 × 2,33 × 2,53 m (modèle 3D)" },
+      { k: "Dimensions L × l × H", v: "4,72 × 2,38 × 3,03 m (modèle 3D)" },
     ],
     specs: [
       { title: "Moteur", rows: [{ k: "Type", v: "Diesel (fictif)" }, { k: "Cylindres", v: "4 (fictif)" }, { k: "Puissance", v: "À confirmer" }] },
       { title: "Transmission", rows: [{ k: "Traction", v: "4 roues motrices (fictif)" }, { k: "Rapports", v: "À confirmer" }] },
-      { title: "Dimensions", rows: [{ k: "Longueur", v: "3,67 m" }, { k: "Largeur", v: "2,33 m" }, { k: "Hauteur", v: "2,53 m" }] },
+      { title: "Dimensions", rows: [{ k: "Longueur", v: "4,72 m" }, { k: "Largeur", v: "2,38 m" }, { k: "Hauteur", v: "3,03 m" }] },
       { title: "Poids", rows: [{ k: "À vide", v: "À confirmer" }] },
       { title: "Performance", rows: [{ k: "Capacité de relevage", v: "À confirmer" }] },
       { title: "Équipement", rows: [{ k: "Cabine", v: "Vitrée (modèle 3D)" }, { k: "Attelage", v: "Barre arrière" }] },
     ],
     hotspots: [
-      { id: "engine", label: "Moteur", position: [0, 1.45, 0.95], description: "Bloc moteur sous le capot avant.", specs: [{ k: "Type", v: "Diesel (fictif)" }] },
-      { id: "cabin", label: "Cabine", position: [0, 2.35, -0.35], description: "Cabine vitrée avec bonne visibilité pour l'opérateur." },
-      { id: "front-wheels", label: "Roues avant", position: [1.05, 0.55, 1.2], normal: [1, 0, 0], description: "Roues directrices avant." },
-      { id: "rear-wheels", label: "Roues arrière", position: [1.2, 0.95, -0.85], normal: [1, 0, 0], description: "Grandes roues arrière motrices pour la traction." },
-      { id: "exhaust", label: "Échappement", position: [0.45, 2.3, 0.75], description: "Sortie d'échappement verticale." },
-      { id: "grille", label: "Calandre", position: [0, 1.15, 1.8], normal: [0, 0, 1], description: "Calandre avant et refroidissement." },
-      { id: "hitch", label: "Attelage arrière", position: [0, 0.6, -1.8], normal: [0, 0, -1], description: "Barre d'attelage pour outils tractés." },
+      { id: "engine", label: "Moteur", position: [0, 1.9, -1.4], description: "Bloc moteur sous le capot avant.", specs: [{ k: "Type", v: "Diesel (fictif)" }] },
+      { id: "cabin", label: "Cabine", position: [0, 2.75, 0.55], description: "Cabine vitrée avec bonne visibilité pour l'opérateur." },
+      { id: "front-wheels", label: "Roues avant", position: [1.0, 0.6, -1.6], normal: [1, 0, 0], description: "Roues directrices avant." },
+      { id: "rear-wheels", label: "Roues arrière", position: [1.2, 1.0, 0.9], normal: [1, 0, 0], description: "Grandes roues arrière motrices pour la traction." },
+      { id: "exhaust", label: "Échappement", position: [-0.55, 2.9, -0.5], description: "Sortie d'échappement verticale." },
+      { id: "grille", label: "Calandre", position: [0, 1.4, -2.35], normal: [0, 0, -1], description: "Calandre avant et refroidissement." },
+      { id: "hitch", label: "Attelage arrière", position: [0, 0.6, 2.3], normal: [0, 0, 1], description: "Barre d'attelage pour outils tractés." },
     ],
     configurations: [
       {
         id: "color", label: "Couleur carrosserie", available: true,
         options: [
-          { id: "original", label: "Orange d'origine", swatch: "oklch(0.7 0.17 50)", material: { name: "orange", color: [0.91, 0.42, 0.1, 1] } },
-          { id: "red", label: "Rouge Mahindra", swatch: "oklch(0.53 0.21 23)", material: { name: "orange", color: [0.68, 0.01, 0.02, 1] } },
-          { id: "green", label: "Vert agricole", swatch: "oklch(0.45 0.11 150)", material: { name: "orange", color: [0.01, 0.15, 0.04, 1] } },
-          { id: "charcoal", label: "Anthracite", swatch: "oklch(0.22 0.005 260)", material: { name: "orange", color: [0.02, 0.02, 0.022, 1] } },
+          { id: "original", label: "Vert sauge d'origine", swatch: "oklch(0.86 0.07 140)", material: { names: BODY, color: [1, 1, 1, 1] } },
+          { id: "red", label: "Rouge Mahindra", swatch: "oklch(0.53 0.21 23)", material: { names: BODY, color: [1.6, 0.05, 0.06, 1] } },
+          { id: "green", label: "Vert agricole", swatch: "oklch(0.45 0.11 150)", material: { names: BODY, color: [0.25, 0.75, 0.35, 1] } },
+          { id: "charcoal", label: "Anthracite", swatch: "oklch(0.22 0.005 260)", material: { names: BODY, color: [0.12, 0.12, 0.13, 1] } },
         ],
       },
       { id: "tires", label: "Pneumatiques", available: false, options: [{ id: "std", label: "Agraires standard" }, { id: "wide", label: "Basse pression" }] },
