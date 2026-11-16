@@ -24,7 +24,6 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const slides = [t9200.url, t585.url, t8000.url];
 const tractors = [
   { name: "Mahindra 585 DI", hp: "50 CV", img: t585.url, tag: "2WD" },
   { name: "Mahindra 705", hp: "60 CV", img: t705.url, tag: "2WD" },
@@ -42,7 +41,7 @@ function Index() {
   const [i, setI] = useState(0);
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
-    const id = setInterval(() => setI((v) => (v + 1) % slides.length), 6000);
+    const id = setInterval(() => setI((v) => (v + 1) % tractors.length), 6000);
     const on = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", on);
     return () => { clearInterval(id); window.removeEventListener("scroll", on); };
@@ -66,31 +65,51 @@ function Index() {
       </header>
 
       {/* Hero */}
-      <section className="relative h-screen min-h-[680px] overflow-hidden">
-        {slides.map((s, k) => (
-          <div key={s} className={`absolute inset-0 transition-opacity duration-[1500ms] ${k === i ? "opacity-100" : "opacity-0"}`}>
-            <img src={s} alt="" className="h-full w-full animate-kenburns object-cover" />
+      <section className="grid-lines relative flex h-[100svh] min-h-[560px] flex-col overflow-hidden pt-20">
+        <div className="pointer-events-none absolute -right-40 top-1/3 h-[60vh] w-[60vh] rounded-full bg-primary/25 blur-[120px]" />
+        <div className="relative mx-auto grid w-full max-w-7xl flex-1 items-center gap-8 px-6 lg:grid-cols-[1fr_1.25fr]">
+          <div className="animate-rise">
+            <p className="mb-5 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-carbon-muted">
+              <span className="h-2 w-2 animate-pulse bg-primary" /> Représentant officiel · Algérie
+            </p>
+            <h1 className="text-[clamp(2.5rem,6vw,5.5rem)] font-bold leading-[0.9]">
+              La puissance <span className="text-primary">Mahindra.</span><br />
+              <span className="text-outline">Forgée en Algérie.</span>
+            </h1>
+            <p className="mt-5 max-w-md text-sm text-carbon-muted md:text-base">Distribution et fabrication de tracteurs robustes à Oued Aïssi, Tizi Ouzou, depuis 2009.</p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <a href="#gamme" className="group flex items-center gap-3 bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground shadow-red">
+                Découvrir la gamme <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </a>
+              <a href="#contact" className="border border-carbon-foreground/30 px-6 py-3.5 text-sm font-semibold transition-colors hover:bg-carbon-foreground/10">Demander un devis</a>
+            </div>
           </div>
-        ))}
-        <div className="absolute inset-0 bg-hero-overlay" />
-        <div className="absolute inset-0 bg-fade-carbon" />
-        <div className="relative mx-auto flex h-full max-w-7xl flex-col justify-end px-6 pb-24">
-          <p className="mb-6 flex animate-rise items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-carbon-muted">
-            <span className="h-px w-12 bg-primary" /> Représentant officiel Mahindra · Algérie
-          </p>
-          <h1 className="max-w-4xl animate-rise text-6xl font-bold leading-[0.9] md:text-8xl lg:text-9xl" style={{ animationDelay: ".15s" }}>
-            La puissance <span className="text-primary">Mahindra</span>,<br />
-            <span className="text-outline">forgée en Algérie</span>
-          </h1>
-          <div className="mt-10 flex animate-rise flex-wrap items-center gap-4" style={{ animationDelay: ".3s" }}>
-            <a href="#gamme" className="group flex items-center gap-3 bg-primary px-8 py-4 font-semibold text-primary-foreground shadow-red">
-              Découvrir la gamme <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
-            </a>
-            <a href="#histoire" className="border border-carbon-foreground/30 px-8 py-4 font-semibold backdrop-blur transition-colors hover:bg-carbon-foreground/10">Notre histoire</a>
+          <div className="relative hidden h-full max-h-[62svh] lg:block">
+            <div className="absolute inset-0 overflow-hidden [clip-path:polygon(8%_0,100%_0,100%_100%,0_100%)]">
+              {tractors.map((t, k) => (
+                <img key={t.name} src={t.img} alt={t.name} className={`absolute inset-0 h-full w-full object-cover transition-all duration-1000 ${k === i ? "scale-100 opacity-100" : "scale-110 opacity-0"}`} />
+              ))}
+              <div className="absolute inset-0 bg-gradient-to-r from-carbon/60 via-transparent to-transparent" />
+            </div>
+            {[["top-[18%] left-[30%]", "Moteur", tractors[i]!.hp], ["top-[55%] left-[62%]", "Transmission", tractors[i]!.tag], ["top-[78%] left-[22%]", "Pièces", "Made in Tizi Ouzou"]].map(([pos, l, v]) => (
+              <div key={l} className={`absolute ${pos} flex items-center gap-2`}>
+                <span className="relative flex h-3 w-3"><span className="absolute inset-0 animate-ping bg-primary/70" /><span className="relative h-3 w-3 bg-primary" /></span>
+                <span className="h-px w-8 bg-carbon-foreground/60" />
+                <span className="bg-carbon/85 px-3 py-1.5 text-xs backdrop-blur"><span className="text-carbon-muted">{l} · </span><b>{v}</b></span>
+              </div>
+            ))}
+            <div className="absolute -bottom-3 right-4 font-display text-7xl font-bold text-carbon-foreground/90">{tractors[i]!.name.replace("Mahindra ", "")}</div>
           </div>
-          <div className="absolute bottom-24 right-6 hidden gap-2 md:flex">
-            {slides.map((_, k) => (
-              <button key={k} aria-label={`Image ${k + 1}`} onClick={() => setI(k)} className={`h-1 transition-all ${k === i ? "w-16 bg-primary" : "w-8 bg-carbon-foreground/30"}`} />
+        </div>
+        <div className="relative border-t border-carbon-foreground/10 bg-carbon/80 backdrop-blur">
+          <div className="mx-auto grid max-w-7xl grid-cols-4">
+            {tractors.map((t, k) => (
+              <button key={t.name} onClick={() => setI(k)} className={`relative px-3 py-4 text-left transition-colors md:px-6 ${k === i ? "text-carbon-foreground" : "text-carbon-muted hover:text-carbon-foreground"}`}>
+                <span className={`absolute inset-x-0 top-0 h-0.5 transition-all ${k === i ? "bg-primary" : "bg-transparent"}`} />
+                <span className="text-[10px] text-primary">0{k + 1}</span>
+                <div className="font-display text-sm font-bold uppercase md:text-lg">{t.name.replace("Mahindra ", "")}</div>
+                <div className="hidden text-xs md:block">{t.hp} · {t.tag}</div>
+              </button>
             ))}
           </div>
         </div>
