@@ -32,7 +32,7 @@ function Showroom() {
   );
   const [quote, setQuote] = useState(false);
   const [exploded, setExploded] = useState(false);
-  const colorOption = useMemo(() => product.configurations.find((c) => c.id === "color")?.options.find((o) => o.id === selection.color), [product, selection]);
+  const colorOption = useMemo(() => product.configurations.find((c) => c.id === "color")?.options.find((o) => o.id === selection['color']), [product, selection]);
   const summary = configSummary(product.configurations, selection);
 
   return (

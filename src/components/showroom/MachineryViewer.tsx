@@ -19,7 +19,7 @@ const ORBITS: Record<CameraPreset, string> = {
   reset: "-35deg 72deg auto",
 };
 
-export function MachineryViewer({ product, colorOption }: { product: Product; colorOption?: ConfigOption }) {
+export function MachineryViewer({ product, colorOption }: { product: Product; colorOption?: ConfigOption | undefined }) {
   const ref = useRef<MV | null>(null);
   const wrap = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false); // custom element registered
