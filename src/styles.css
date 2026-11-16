@@ -157,3 +157,10 @@
   h1, h2, h3 { font-family: var(--font-display); text-transform: uppercase; letter-spacing: -0.01em; }
   html { scroll-behavior: smooth; }
 }
+
+@utility bg-showroom {
+  background: radial-gradient(ellipse 70% 60% at 50% 55%, oklch(1 0 0) 0%, var(--muted) 70%, oklch(0.88 0.006 247) 100%);
+}
+model-viewer .hotspot { display: block; background: none; border: 0; padding: 0; cursor: pointer; }
+model-viewer .hotspot:not([data-visible]) { opacity: 0.25; }
+.showroom-stage:fullscreen { background: var(--muted); }
