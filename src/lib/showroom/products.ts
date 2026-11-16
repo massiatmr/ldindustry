@@ -3,6 +3,8 @@
  * from a database table without changing the components.
  * All values below are DEMONSTRATION data, not manufacturer specifications.
  */
+import farmallAsset from "@/assets/farmall-super-a.glb.asset.json";
+
 export type Vec3 = [number, number, number];
 
 export interface Hotspot {
@@ -56,6 +58,47 @@ export interface Product {
 const BODY = ["tractor_body_pbr","tractor_paint_sage_x","tractor_paint_sage_x.001","tractor_paint_sage_x.002","tractor_paint_sage_x.003"];
 
 export const products: Product[] = [
+  {
+    slug: "farmall-super-a",
+    name: "Farmall Super A",
+    brand: "Modèle CAO GrabCAD",
+    reference: "FARMALL-A",
+    category: "Tracteur agricole classique",
+    description: "Modèle 3D d'ingénierie détaillé (moteur, transmission, direction, attelage) converti depuis un fichier CAO. Les caractéristiques affichées sont indicatives, en attendant les fiches officielles.",
+    demo: true,
+    modelUrl: farmallAsset.url,
+    images: [],
+    summary: [
+      { k: "Type de moteur", v: "Essence 4 cylindres (indicatif)" },
+      { k: "Transmission", v: "2 roues motrices" },
+      { k: "Dimensions L × l × H", v: "3,13 × 2,01 × 2,45 m (modèle 3D)" },
+    ],
+    specs: [
+      { title: "Moteur", rows: [{ k: "Cylindres", v: "4 (modèle 3D)" }, { k: "Puissance", v: "À confirmer" }] },
+      { title: "Transmission", rows: [{ k: "Traction", v: "Arrière" }] },
+      { title: "Dimensions", rows: [{ k: "Longueur", v: "3,13 m" }, { k: "Largeur", v: "2,01 m" }, { k: "Hauteur (échappement)", v: "2,45 m" }] },
+    ],
+    hotspots: [
+      { id: "engine", label: "Moteur", position: [0.8, 1.0, -0.66], normal: [0, 0, -1], description: "Moteur 4 cylindres apparent, bougies, ventilateur et alternateur." },
+      { id: "seat", label: "Poste de conduite", position: [-1.1, 1.47, 0], description: "Siège en tôle et volant de direction." },
+      { id: "front-wheels", label: "Roues avant", position: [1.2, 0.35, 0.89], normal: [0, 0, 1], description: "Essieu avant directeur." },
+      { id: "rear-wheels", label: "Roues arrière", position: [-0.88, 0.64, 0.92], normal: [0, 0, 1], description: "Grandes roues motrices avec masses de roue." },
+      { id: "exhaust", label: "Échappement", position: [0.78, 2.45, -0.55], description: "Échappement vertical." },
+      { id: "grille", label: "Calandre", position: [1.56, 1.1, 0], normal: [1, 0, 0], description: "Calandre et radiateur." },
+      { id: "hitch", label: "Relevage arrière", position: [-1.56, 0.7, 0], normal: [-1, 0, 0], description: "Relevage et attelage arrière." },
+    ],
+    configurations: [
+      {
+        id: "color", label: "Couleur carrosserie", available: true,
+        options: [
+          { id: "red", label: "Rouge Mahindra", swatch: "oklch(0.53 0.21 23)", material: { names: ["paint"], color: [0.78, 0.086, 0.07, 1] } },
+          { id: "green", label: "Vert agricole", swatch: "oklch(0.45 0.11 150)", material: { names: ["paint"], color: [0.1, 0.4, 0.15, 1] } },
+          { id: "charcoal", label: "Anthracite", swatch: "oklch(0.22 0.005 260)", material: { names: ["paint"], color: [0.08, 0.08, 0.09, 1] } },
+        ],
+      },
+    ],
+    supportsExploded: false,
+  },
   {
     slug: "tracteur-demo",
     name: "Tracteur de démonstration",
