@@ -91,14 +91,14 @@ function Index() {
               ))}
               <div className="absolute inset-0 bg-gradient-to-r from-carbon/60 via-transparent to-transparent" />
             </div>
-            {[["top-[18%] left-[30%]", "Moteur", tractors[i].hp], ["top-[55%] left-[62%]", "Transmission", tractors[i].tag], ["top-[78%] left-[22%]", "Pièces", "Made in Tizi Ouzou"]].map(([pos, l, v]) => (
+            {[["top-[18%] left-[30%]", "Moteur", tractors[i]!.hp], ["top-[55%] left-[62%]", "Transmission", tractors[i]!.tag], ["top-[78%] left-[22%]", "Pièces", "Made in Tizi Ouzou"]].map(([pos, l, v]) => (
               <div key={l} className={`absolute ${pos} flex items-center gap-2`}>
                 <span className="relative flex h-3 w-3"><span className="absolute inset-0 animate-ping bg-primary/70" /><span className="relative h-3 w-3 bg-primary" /></span>
                 <span className="h-px w-8 bg-carbon-foreground/60" />
                 <span className="bg-carbon/85 px-3 py-1.5 text-xs backdrop-blur"><span className="text-carbon-muted">{l} · </span><b>{v}</b></span>
               </div>
             ))}
-            <div className="absolute -bottom-3 right-4 font-display text-7xl font-bold text-carbon-foreground/90">{tractors[i].name.replace("Mahindra ", "")}</div>
+            <div className="absolute -bottom-3 right-4 font-display text-7xl font-bold text-carbon-foreground/90">{tractors[i]!.name.replace("Mahindra ", "")}</div>
           </div>
         </div>
         <div className="relative border-t border-carbon-foreground/10 bg-carbon/80 backdrop-blur">
