@@ -165,6 +165,7 @@ model-viewer .hotspot { display: block; background: none; border: 0; padding: 0;
 model-viewer .hotspot:not([data-visible]) { opacity: 0.25; }
 .showroom-stage:fullscreen { background: var(--muted); }
 .capability-stage model-viewer { background: transparent; }
+.capability-stage model-viewer::part(default-progress-bar) { display: none; }
 .capability-stage:fullscreen { height: 100svh; background: var(--background); }
 .capability-point { transition: opacity 0.2s; }
 .capability-point:not([data-visible]) { opacity: 0.45; }
