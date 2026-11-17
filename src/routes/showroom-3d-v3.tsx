@@ -7,8 +7,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { CapabilityTabs, useCapabilityTour } from "@/components/showroom/CapabilityTabs";
 import { CapabilityViewer } from "@/components/showroom/CapabilityViewer";
-import { capabilities, farmUses, mahindra8000, manufacturerSource, technicalSource, type CapabilityId } from "@/lib/showroom/mahindra8000";
+import { capabilities, farmUses, mahindra8000, manufacturerSource, technicalSource } from "@/lib/showroom/mahindra8000";
 import { downloadMahindraRecap } from "@/lib/showroom/mahindraPdf";
 
 export const Route = createFileRoute("/showroom-3d-v3")({
@@ -24,7 +25,7 @@ export const Route = createFileRoute("/showroom-3d-v3")({
 });
 
 function Showroom() {
-  const [active, setActive] = useState<CapabilityId | null>(null);
+  const { active, select, playing, toggle, pause } = useCapabilityTour();
   const [terrain, setTerrain] = useState(false);
   const [uses, setUses] = useState<string[]>([]);
   const [quote, setQuote] = useState(false);
@@ -61,25 +62,22 @@ function Showroom() {
       </div>
       <section className="grid border-y border-border lg:grid-cols-[minmax(0,1fr)_340px] xl:grid-cols-[minmax(0,1fr)_390px]">
         <div className="relative h-[470px] min-w-0 lg:h-[max(440px,calc(100svh-235px))] lg:max-h-[760px]">
-          <CapabilityViewer active={active} onSelect={setActive} terrain={terrain} />
+          <CapabilityViewer active={active} onSelect={select} terrain={terrain} onInteract={pause} />
           <div className="absolute left-5 top-5 flex border border-border bg-card/95 p-1" role="group" aria-label="Décor">
             <Button variant={terrain ? "ghost" : "secondary"} size="sm" aria-pressed={!terrain} onClick={() => setTerrain(false)}><Box /> Studio</Button>
             <Button variant={terrain ? "secondary" : "ghost"} size="sm" aria-pressed={terrain} onClick={() => setTerrain(true)}><Mountain /> Terrain</Button>
           </div>
         </div>
         <aside className="border-t border-border bg-card lg:border-l lg:border-t-0">
-          <div className="border-b border-border px-5 py-4"><p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Les atouts au travail</p></div>
-          <div className="grid grid-cols-5 border-b border-border" role="tablist" aria-label="Atouts du Mahindra">
-            {capabilities.map((item, index) => <Button key={item.id} id={`tab-${item.id}`} role="tab" aria-selected={feature.id === item.id} aria-controls="capability-detail" variant="ghost" onClick={() => setActive(item.id)} className={`h-[66px] flex-col gap-1 rounded-none px-0 text-[10px] ${feature.id === item.id ? "border-b-2 border-primary bg-primary/5 text-primary" : "text-muted-foreground"}`}><span className="font-display text-lg">0{index + 1}</span>{item.label}</Button>)}
-          </div>
-          <div id="capability-detail" role="tabpanel" aria-labelledby={`tab-${feature.id}`} className="px-6 py-6" aria-live="polite">
+          <CapabilityTabs active={feature.id} onSelect={select} playing={playing} onToggle={toggle} prefix="capability" />
+          <div id="capability-detail" role="tabpanel" aria-labelledby={`capability-tab-${feature.id}`} className="px-6 py-6" aria-live="polite">
             <p className="mb-3 text-[10px] uppercase tracking-wider text-muted-foreground">0{featureIndex + 1} / 05 · {feature.part}</p>
             <p className="mb-3 font-display text-3xl text-primary">{feature.metric}</p>
             <h2 className="text-xl font-medium">{feature.title}</h2>
             <p className="mt-3 text-[13px] leading-relaxed text-muted-foreground">{feature.description}</p>
             <p className="mt-5 flex gap-2 border-l-2 border-accent pl-3 text-xs font-medium leading-relaxed"><Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" />{feature.benefit}</p>
             <details className="mt-5 text-[11px] leading-relaxed text-muted-foreground"><summary className="cursor-pointer font-semibold text-foreground">À vérifier avec votre concession</summary><p className="mt-2">{feature.caution}</p></details>
-            <Button variant="link" className="mt-4 h-auto px-0 text-xs" onClick={() => setActive(capabilities[(featureIndex + 1) % capabilities.length]?.id ?? "traction")}>Atout suivant <ArrowRight /></Button>
+            <Button variant="link" className="mt-4 h-auto px-0 text-xs" onClick={() => select(capabilities[(featureIndex + 1) % capabilities.length]?.id ?? "traction")}>Atout suivant <ArrowRight /></Button>
           </div>
         </aside>
       </section>

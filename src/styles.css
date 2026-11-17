@@ -171,6 +171,9 @@ model-viewer .hotspot:not([data-visible]) { opacity: 0.25; }
 .capability-stage model-viewer::part(default-progress-bar) { display: none; }
 .capability-stage:fullscreen { height: 100svh; background: var(--background); }
 .capability-point { transition: opacity 0.2s; }
+.capability-point::before { content: ""; position: absolute; inset: -8px; border-radius: 50%; }
+@keyframes capability-tour { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.capability-tour-progress { transform-origin: left; animation: capability-tour 7s linear; }
 .capability-point:not([data-visible]) { opacity: 0.45; }
 .capability-stage h1, .capability-stage h2 { letter-spacing: 0; }
 .hero-forged {
@@ -188,6 +191,7 @@ model-viewer .hotspot:not([data-visible]) { opacity: 0.25; }
 }
 @media (prefers-reduced-motion: reduce) {
   .capability-point { transition: none; }
+  .capability-tour-progress { animation: none; display: none; }
   .hero-forged { transition: none; }
   .hero-forged:hover { transform: none; }
 }

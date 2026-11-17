@@ -116,6 +116,8 @@ function Index() {
         </div>
       </section>
 
+      <HomeShowroom />
+
       {/* Stats */}
       <section className="border-y border-carbon-foreground/10 bg-carbon-2">
         <div className="mx-auto grid max-w-7xl grid-cols-2 md:grid-cols-4">
@@ -188,7 +190,6 @@ function Index() {
         </div>
       </section>
 
-      <HomeShowroom />
 
       {/* Industrie */}
       <section id="industrie" className="relative overflow-hidden py-32">

@@ -8,3 +8,8 @@
 - [x] Add a dedicated interactive Mahindra showroom section linked to v3.
 - [x] Illuminate the hero's “Forgée en Algérie.” text with a hover effect.
 - [x] Verify homepage interaction and navigation on desktop/mobile.
+
+# Showroom clarity
+- [x] Reduce 3D markers and slightly widen camera framing.
+- [x] Add clearly clickable capability controls and a pausable automatic tour.
+- [x] Move the homepage showroom directly after the hero and verify mobile.
