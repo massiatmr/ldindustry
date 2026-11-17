@@ -66,40 +66,40 @@ function Index() {
       </header>
 
       {/* Hero */}
-      <section className="grid-lines relative flex h-[100svh] min-h-[560px] flex-col overflow-hidden pt-20">
+      <section className="grid-lines relative flex min-h-[560px] flex-col overflow-hidden pt-20 lg:h-[100svh]">
         <div className="pointer-events-none absolute -right-40 top-1/3 h-[60vh] w-[60vh] rounded-full bg-primary/25 blur-[120px]" />
-        <div className="relative mx-auto grid w-full max-w-7xl flex-1 items-center gap-8 px-6 lg:grid-cols-[1fr_1.25fr]">
-          <div className="animate-rise">
-            <p className="mb-5 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-carbon-muted">
+        <div className="relative mx-auto grid w-full max-w-7xl flex-1 items-center gap-5 px-6 pt-4 lg:grid-cols-[1fr_1.25fr] lg:gap-8 lg:pt-0">
+          <div className="min-w-0 animate-rise">
+            <p className="mb-3 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-carbon-muted lg:mb-5 lg:text-[11px] lg:tracking-[0.3em]">
               <span className="h-2 w-2 animate-pulse bg-primary" /> Représentant officiel · Algérie
             </p>
             <h1 className="text-[clamp(2.5rem,6vw,5.5rem)] font-bold leading-[0.9]">
               La puissance <span className="text-primary">Mahindra.</span><br />
               <span className="hero-forged">Forgée en Algérie.</span>
             </h1>
-            <p className="mt-5 max-w-md text-sm text-carbon-muted md:text-base">Distribution et fabrication de tracteurs robustes à Oued Aïssi, Tizi Ouzou, depuis 2009.</p>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <a href="#gamme" className="group flex items-center gap-3 bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground shadow-red">
+            <p className="mt-3 max-w-md text-sm text-carbon-muted md:text-base lg:mt-5">Distribution et fabrication de tracteurs robustes à Oued Aïssi, Tizi Ouzou, depuis 2009.</p>
+            <div className="mt-4 flex flex-wrap gap-2 lg:mt-7 lg:gap-3">
+              <a href="#gamme" className="group flex items-center gap-2 bg-primary px-3 py-3 text-xs font-semibold text-primary-foreground shadow-red sm:px-6 sm:text-sm lg:py-3.5">
                 Découvrir la gamme <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </a>
-              <a href="#contact" className="border border-carbon-foreground/30 px-6 py-3.5 text-sm font-semibold transition-colors hover:bg-carbon-foreground/10">Demander un devis</a>
+              <a href="#contact" className="border border-carbon-foreground/30 px-3 py-3 text-xs font-semibold transition-colors hover:bg-carbon-foreground/10 sm:px-6 sm:text-sm lg:py-3.5">Demander un devis</a>
             </div>
           </div>
-          <div className="relative hidden h-full max-h-[62svh] lg:block">
-            <div className="absolute inset-0 overflow-hidden [clip-path:polygon(8%_0,100%_0,100%_100%,0_100%)]">
+          <div className="relative h-[200px] min-w-0 sm:h-[300px] lg:h-full lg:max-h-[62svh]">
+            <div className="absolute inset-0 overflow-hidden lg:[clip-path:polygon(8%_0,100%_0,100%_100%,0_100%)]">
               {tractors.map((t, k) => (
-                <img key={t.name} src={t.img} alt={t.name} className={`absolute inset-0 h-full w-full object-cover transition-all duration-1000 ${k === i ? "scale-100 opacity-100" : "scale-110 opacity-0"}`} />
+                <img key={t.name} src={t.img} alt={t.name} aria-hidden={k !== i} className={`absolute inset-0 h-full w-full object-contain transition-all duration-1000 lg:object-cover ${k === i ? "scale-100 opacity-100" : "scale-110 opacity-0"}`} />
               ))}
-              <div className="absolute inset-0 bg-gradient-to-r from-carbon/60 via-transparent to-transparent" />
+              <div className="absolute inset-0 hidden bg-gradient-to-r from-carbon/60 via-transparent to-transparent lg:block" />
             </div>
             {[["top-[18%] left-[30%]", "Moteur", tractors[i]?.hp], ["top-[55%] left-[62%]", "Transmission", tractors[i]?.tag], ["top-[78%] left-[22%]", "Pièces", "Made in Tizi Ouzou"]].map(([pos, l, v]) => (
-              <div key={l} className={`absolute ${pos} flex items-center gap-2`}>
+              <div key={l} className={`absolute ${pos} hidden items-center gap-2 lg:flex`}>
                 <span className="relative flex h-3 w-3"><span className="absolute inset-0 animate-ping bg-primary/70" /><span className="relative h-3 w-3 bg-primary" /></span>
                 <span className="h-px w-8 bg-carbon-foreground/60" />
                 <span className="bg-carbon/85 px-3 py-1.5 text-xs backdrop-blur"><span className="text-carbon-muted">{l} · </span><b>{v}</b></span>
               </div>
             ))}
-            <div className="absolute -bottom-3 right-4 font-display text-7xl font-bold text-carbon-foreground/90">{tractors[i]?.name.replace("Mahindra ", "")}</div>
+            <div className="absolute bottom-2 right-2 bg-carbon/80 px-2 font-display text-2xl font-bold text-carbon-foreground/90 lg:-bottom-3 lg:right-4 lg:bg-transparent lg:px-0 lg:text-7xl">{tractors[i]?.name.replace("Mahindra ", "")}</div>
           </div>
         </div>
         <div className="relative border-t border-carbon-foreground/10 bg-carbon/80 backdrop-blur">
