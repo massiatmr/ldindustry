@@ -3,3 +3,8 @@
 - [x] Create a separate feature-led 3D page with five focused viewpoints and studio/terrain scenes.
 - [x] Add a factual PDF recap and a locally prepared quotation request; do not imply transmission.
 - [x] Verify desktop/mobile, feature selection and PDF download.
+
+# Homepage integration
+- [ ] Add a dedicated interactive Mahindra showroom section linked to v3.
+- [ ] Illuminate the hero's “Forgée en Algérie.” text with a hover effect.
+- [ ] Verify homepage interaction and navigation on desktop/mobile.

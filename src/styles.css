@@ -113,6 +113,9 @@
   --gradient-hero: linear-gradient(90deg, oklch(0.12 0.006 260 / 0.95) 0%, oklch(0.12 0.006 260 / 0.7) 45%, oklch(0.12 0.006 260 / 0.1) 100%);
   --gradient-fade: linear-gradient(to top, var(--carbon) 0%, transparent 40%);
   --shadow-red: 0 20px 50px -15px color-mix(in oklab, var(--primary) 60%, transparent);
+  --hero-forged-ink: color-mix(in oklab, var(--carbon-foreground) 88%, transparent);
+  --hero-forged-glow: 0 0 12px color-mix(in oklab, var(--carbon-foreground) 28%, transparent), 0 0 32px color-mix(in oklab, var(--primary) 22%, transparent);
+  --hero-forged-glow-active: 0 0 8px color-mix(in oklab, var(--carbon-foreground) 55%, transparent), 0 0 24px color-mix(in oklab, var(--primary) 50%, transparent), 0 0 48px color-mix(in oklab, var(--primary) 25%, transparent);
 }
 
 @theme inline {
@@ -170,6 +173,21 @@ model-viewer .hotspot:not([data-visible]) { opacity: 0.25; }
 .capability-point { transition: opacity 0.2s; }
 .capability-point:not([data-visible]) { opacity: 0.45; }
 .capability-stage h1, .capability-stage h2 { letter-spacing: 0; }
+.hero-forged {
+  display: inline-block;
+  color: var(--hero-forged-ink);
+  -webkit-text-stroke: 1px var(--carbon-foreground);
+  text-shadow: var(--hero-forged-glow);
+  transition: color 0.35s ease, text-shadow 0.35s ease, transform 0.35s ease;
+  letter-spacing: 0;
+}
+.hero-forged:hover {
+  color: var(--carbon-foreground);
+  text-shadow: var(--hero-forged-glow-active);
+  transform: translateY(-2px);
+}
 @media (prefers-reduced-motion: reduce) {
   .capability-point { transition: none; }
+  .hero-forged { transition: none; }
+  .hero-forged:hover { transform: none; }
 }

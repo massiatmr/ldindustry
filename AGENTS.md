@@ -32,3 +32,4 @@ use the editor.
 - Keep the feature-led Mahindra showroom isolated from the two previous showroom pages so iteration preserves their models and controls.
 - Maintain manufacturer specifications and capability content in a browser-safe catalog with source links and concrete-value tests; the supplied exterior mesh is not evidence of internal equipment.
 - Generate project recap PDFs in the browser and clearly mark them as unsent preparation documents, because this showroom has no connected quotation-delivery service.
+- Load the homepage showroom viewer only near its section through IntersectionObserver and React.lazy; reuse the feature viewer and catalog so the homepage stays light and the two experiences remain consistent.
