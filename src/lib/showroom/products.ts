@@ -4,6 +4,7 @@
  * All values below are DEMONSTRATION data, not manufacturer specifications.
  */
 import farmallAsset from "@/assets/farmall-super-a.glb.asset.json";
+import texturedAsset from "@/assets/tracteur-texture.glb.asset.json";
 
 export type Vec3 = [number, number, number];
 
@@ -58,6 +59,24 @@ export interface Product {
 const BODY = ["tractor_body_pbr","tractor_paint_sage_x","tractor_paint_sage_x.001","tractor_paint_sage_x.002","tractor_paint_sage_x.003"];
 
 export const products: Product[] = [
+  {
+    slug: "tracteur-texture",
+    name: "Tracteur 3D texturé",
+    brand: "LD Azouaou (démo)",
+    reference: "DEMO-T02",
+    category: "Tracteur agricole",
+    description: "Modèle 3D texturé fourni pour le showroom. Les caractéristiques sont à confirmer avec les fiches officielles.",
+    demo: true,
+    modelUrl: texturedAsset.url,
+    images: [],
+    summary: [{ k: "Puissance moteur", v: "À confirmer" }, { k: "Transmission", v: "À confirmer" }],
+    specs: [{ title: "Caractéristiques", rows: [{ k: "Puissance", v: "À confirmer" }, { k: "Poids", v: "À confirmer" }] }],
+    hotspots: [],
+    configurations: [
+      { id: "color", label: "Couleur carrosserie", available: false, options: [{ id: "original", label: "Couleur d'origine (texture)" }] },
+    ],
+    supportsExploded: false,
+  },
   {
     slug: "farmall-super-a",
     name: "Farmall Super A",

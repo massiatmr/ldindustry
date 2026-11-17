@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as Showroom3dRouteImport } from './routes/showroom-3d'
+import { Route as Showroom3dV2RouteImport } from './routes/showroom-3d-v2'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +23,40 @@ const Showroom3dRoute = Showroom3dRouteImport.update({
   path: '/showroom-3d',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Showroom3dV2Route = Showroom3dV2RouteImport.update({
+  id: '/showroom-3d-v2',
+  path: '/showroom-3d-v2',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/showroom-3d': typeof Showroom3dRoute
+  '/showroom-3d-v2': typeof Showroom3dV2Route
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/showroom-3d': typeof Showroom3dRoute
+  '/showroom-3d-v2': typeof Showroom3dV2Route
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/showroom-3d': typeof Showroom3dRoute
+  '/showroom-3d-v2': typeof Showroom3dV2Route
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/showroom-3d'
+  fullPaths: '/' | '/showroom-3d' | '/showroom-3d-v2'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/showroom-3d'
-  id: '__root__' | '/' | '/showroom-3d'
+  to: '/' | '/showroom-3d' | '/showroom-3d-v2'
+  id: '__root__' | '/' | '/showroom-3d' | '/showroom-3d-v2'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   Showroom3dRoute: typeof Showroom3dRoute
+  Showroom3dV2Route: typeof Showroom3dV2Route
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +75,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Showroom3dRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/showroom-3d-v2': {
+      id: '/showroom-3d-v2'
+      path: '/showroom-3d-v2'
+      fullPath: '/showroom-3d-v2'
+      preLoaderRoute: typeof Showroom3dV2RouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   Showroom3dRoute: Showroom3dRoute,
+  Showroom3dV2Route: Showroom3dV2Route,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
