@@ -26,7 +26,7 @@ export const Route = createFileRoute("/showroom-3d")({
 });
 
 function Showroom() {
-  const product = products[0]!;
+  const product = products.find((p) => p.slug === "farmall-super-a")!;
   const [selection, setSelection] = useState<Selection>(() =>
     Object.fromEntries(product.configurations.filter((c) => c.available).map((c) => [c.id, c.options[0]!.id])),
   );

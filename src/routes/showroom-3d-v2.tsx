@@ -53,7 +53,7 @@ function Showroom() {
 
       <div className="mx-auto max-w-[1600px] px-6">
         <nav aria-label="Fil d'Ariane" className="flex items-center gap-1 py-4 text-xs text-muted-foreground">
-          <Link to="/" className="hover:text-foreground">Accueil</Link><ChevronRight className="h-3 w-3" /><span className="text-foreground">Showroom 3D</span>
+          <Link to="/" className="hover:text-foreground">Accueil</Link><ChevronRight className="h-3 w-3" /><span className="text-foreground">Showroom 3D · v2</span>
         </nav>
 
         <section className="grid gap-6 lg:grid-cols-[7fr_3fr]">
