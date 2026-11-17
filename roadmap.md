@@ -5,6 +5,6 @@
 - [x] Verify desktop/mobile, feature selection and PDF download.
 
 # Homepage integration
-- [ ] Add a dedicated interactive Mahindra showroom section linked to v3.
-- [ ] Illuminate the hero's “Forgée en Algérie.” text with a hover effect.
-- [ ] Verify homepage interaction and navigation on desktop/mobile.
+- [x] Add a dedicated interactive Mahindra showroom section linked to v3.
+- [x] Illuminate the hero's “Forgée en Algérie.” text with a hover effect.
+- [x] Verify homepage interaction and navigation on desktop/mobile.

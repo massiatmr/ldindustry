@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ArrowRight, ArrowUpRight, Factory, Cog, Wrench, Phone, MapPin } from "lucide-react";
 import { BrandLogo } from "@/components/BrandLogo";
+import { HomeShowroom } from "@/components/showroom/HomeShowroom";
 import t9200 from "@/assets/tracteur-9200.png.asset.json";
 import t585 from "@/assets/tracteur-585.png.asset.json";
 import t705 from "@/assets/tracteur-705.png.asset.json";
@@ -54,7 +55,7 @@ function Index() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6">
           <BrandLogo variant="white" className="h-9 md:h-11" />
           <nav className="hidden gap-8 text-sm font-medium text-carbon-muted md:flex">
-            {["Histoire", "Gamme", "Industrie", "Contact"].map((n) => (
+            {["Histoire", "Gamme", "Showroom", "Industrie", "Contact"].map((n) => (
               <a key={n} href={`#${n.toLowerCase()}`} className="transition-colors hover:text-carbon-foreground">{n}</a>
             ))}
           </nav>
@@ -74,7 +75,7 @@ function Index() {
             </p>
             <h1 className="text-[clamp(2.5rem,6vw,5.5rem)] font-bold leading-[0.9]">
               La puissance <span className="text-primary">Mahindra.</span><br />
-              <span className="text-outline">Forgée en Algérie.</span>
+              <span className="hero-forged">Forgée en Algérie.</span>
             </h1>
             <p className="mt-5 max-w-md text-sm text-carbon-muted md:text-base">Distribution et fabrication de tracteurs robustes à Oued Aïssi, Tizi Ouzou, depuis 2009.</p>
             <div className="mt-7 flex flex-wrap gap-3">
@@ -91,14 +92,14 @@ function Index() {
               ))}
               <div className="absolute inset-0 bg-gradient-to-r from-carbon/60 via-transparent to-transparent" />
             </div>
-            {[["top-[18%] left-[30%]", "Moteur", tractors[i]!.hp], ["top-[55%] left-[62%]", "Transmission", tractors[i]!.tag], ["top-[78%] left-[22%]", "Pièces", "Made in Tizi Ouzou"]].map(([pos, l, v]) => (
+            {[["top-[18%] left-[30%]", "Moteur", tractors[i]?.hp], ["top-[55%] left-[62%]", "Transmission", tractors[i]?.tag], ["top-[78%] left-[22%]", "Pièces", "Made in Tizi Ouzou"]].map(([pos, l, v]) => (
               <div key={l} className={`absolute ${pos} flex items-center gap-2`}>
                 <span className="relative flex h-3 w-3"><span className="absolute inset-0 animate-ping bg-primary/70" /><span className="relative h-3 w-3 bg-primary" /></span>
                 <span className="h-px w-8 bg-carbon-foreground/60" />
                 <span className="bg-carbon/85 px-3 py-1.5 text-xs backdrop-blur"><span className="text-carbon-muted">{l} · </span><b>{v}</b></span>
               </div>
             ))}
-            <div className="absolute -bottom-3 right-4 font-display text-7xl font-bold text-carbon-foreground/90">{tractors[i]!.name.replace("Mahindra ", "")}</div>
+            <div className="absolute -bottom-3 right-4 font-display text-7xl font-bold text-carbon-foreground/90">{tractors[i]?.name.replace("Mahindra ", "")}</div>
           </div>
         </div>
         <div className="relative border-t border-carbon-foreground/10 bg-carbon/80 backdrop-blur">
@@ -186,6 +187,8 @@ function Index() {
           </div>
         </div>
       </section>
+
+      <HomeShowroom />
 
       {/* Industrie */}
       <section id="industrie" className="relative overflow-hidden py-32">
