@@ -3,13 +3,7 @@ import { useEffect, useState } from "react";
 import { ArrowRight, ArrowUpRight, Factory, Cog, Wrench, Phone, MapPin } from "lucide-react";
 import { BrandLogo } from "@/components/BrandLogo";
 import { HomeShowroom } from "@/components/showroom/HomeShowroom";
-import t9200 from "@/assets/tracteur-9200.png.asset.json";
-import t585 from "@/assets/tracteur-585.png.asset.json";
-import t705 from "@/assets/tracteur-705.png.asset.json";
-import t8000 from "@/assets/tracteur-8000.png.asset.json";
-import siege from "@/assets/siege-oued-aissi.png.asset.json";
-import disques from "@/assets/pulveriseur-disques.jpg.asset.json";
-import mahindra from "@/assets/mahindra-logo.png.asset.json";
+import orchard from "@/assets/kabylie-olive-orchard.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -25,11 +19,12 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+const tractorImage = "https://www.mahindratractor.com/sites/default/files/2024-07/585-DI-XP-PLUS%20-%20desktop_1_11zon.jpg";
 const tractors = [
-  { name: "Mahindra 585 DI", hp: "50 CV", img: t585.url, tag: "2WD" },
-  { name: "Mahindra 705", hp: "60 CV", img: t705.url, tag: "2WD" },
-  { name: "Mahindra 8000", hp: "75 CV", img: t8000.url, tag: "4WD" },
-  { name: "Mahindra 9200", hp: "92 CV", img: t9200.url, tag: "4WD" },
+  { name: "Mahindra 585 DI", hp: "50 CV", img: tractorImage, tag: "2WD" },
+  { name: "Mahindra 705", hp: "60 CV", img: tractorImage, tag: "2WD" },
+  { name: "Mahindra 8000", hp: "75 CV", img: tractorImage, tag: "4WD" },
+  { name: "Mahindra 9200", hp: "92 CV", img: tractorImage, tag: "4WD" },
 ];
 const timeline = [
   { y: "2009", t: "Création", d: "Fondation d'Eurl LD Azouaou : biens et services en machinisme agricole." },
@@ -138,7 +133,7 @@ function Index() {
               <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">Depuis 2009</p>
               <h2 className="mt-4 text-5xl font-bold leading-none md:text-6xl">Une trajectoire <br />industrielle</h2>
               <p className="mt-6 max-w-md text-carbon-muted">De la distribution à la fabrication : un projet réalisé dans un cadre légal et réglementaire, bien avant le cahier des charges du Ministère de l'Industrie et des Mines.</p>
-              <img src={mahindra.url} alt="Mahindra" className="mt-10 h-20 w-auto rounded bg-carbon-foreground p-3" />
+              <div className="mt-10"><BrandLogo variant="color" className="h-14" /></div>
             </div>
             <ol className="relative border-l border-carbon-foreground/15">
               {timeline.map((e) => (
@@ -210,8 +205,8 @@ function Index() {
             </div>
           </div>
           <div className="relative">
-            <img src={siege.url} alt="Siège LD Azouaou à Oued Aïssi" className="w-full object-cover shadow-red" />
-            <img src={disques.url} alt="Pulvériseur à disques" className="absolute -bottom-12 -left-8 w-1/2 border-4 border-carbon bg-carbon-foreground" />
+            <img src={orchard} alt="Oliviers de Kabylie près de Tizi Ouzou" className="aspect-[4/3] w-full object-cover shadow-red" />
+            <img src={tractorImage} alt="Tracteur Mahindra au travail" className="absolute -bottom-12 -left-8 w-1/2 border-4 border-carbon bg-carbon-foreground object-cover" />
           </div>
         </div>
       </section>

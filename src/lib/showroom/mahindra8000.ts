@@ -1,4 +1,4 @@
-import model from "@/assets/mahindra-8000-ready.glb.asset.json";
+const model = { url: "/models/tractor-demo.glb" };
 
 export const manufacturerSource = "https://www.mahindrafarmequipment.com/algeria/series/00-series/";
 export const technicalSource = "https://webfs.oecd.org/TADWEB/agriculture/data/tractor/2012/En2675.pdf";

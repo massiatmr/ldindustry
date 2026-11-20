@@ -3,8 +3,7 @@
  * from a database table without changing the components.
  * All values below are DEMONSTRATION data, not manufacturer specifications.
  */
-import farmallAsset from "@/assets/farmall-super-a.glb.asset.json";
-import texturedAsset from "@/assets/tracteur-texture.glb.asset.json";
+const demoModelUrl = "/models/tractor-demo.glb";
 
 export type Vec3 = [number, number, number];
 
@@ -67,7 +66,7 @@ export const products: Product[] = [
     category: "Tracteur agricole",
     description: "Modèle 3D texturé fourni pour le showroom. Les caractéristiques sont à confirmer avec les fiches officielles.",
     demo: true,
-    modelUrl: texturedAsset.url,
+    modelUrl: demoModelUrl,
     images: [],
     summary: [{ k: "Puissance moteur", v: "À confirmer" }, { k: "Transmission", v: "À confirmer" }],
     specs: [{ title: "Caractéristiques", rows: [{ k: "Puissance", v: "À confirmer" }, { k: "Poids", v: "À confirmer" }] }],
@@ -85,7 +84,7 @@ export const products: Product[] = [
     category: "Tracteur agricole classique",
     description: "Modèle 3D d'ingénierie détaillé (moteur, transmission, direction, attelage) converti depuis un fichier CAO. Les caractéristiques affichées sont indicatives, en attendant les fiches officielles.",
     demo: true,
-    modelUrl: farmallAsset.url,
+    modelUrl: demoModelUrl,
     images: [],
     summary: [
       { k: "Type de moteur", v: "Essence 4 cylindres (indicatif)" },
