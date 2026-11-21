@@ -33,7 +33,10 @@ export interface ConfigCategory {
   options: ConfigOption[];
 }
 
-export interface SpecGroup { title: string; rows: { k: string; v: string }[] }
+export interface SpecGroup {
+  title: string;
+  rows: { k: string; v: string }[];
+}
 
 export interface Product {
   slug: string;
@@ -55,7 +58,13 @@ export interface Product {
   supportsExploded: boolean;
 }
 
-const BODY = ["tractor_body_pbr","tractor_paint_sage_x","tractor_paint_sage_x.001","tractor_paint_sage_x.002","tractor_paint_sage_x.003"];
+const BODY = [
+  "tractor_body_pbr",
+  "tractor_paint_sage_x",
+  "tractor_paint_sage_x.001",
+  "tractor_paint_sage_x.002",
+  "tractor_paint_sage_x.003",
+];
 
 export const products: Product[] = [
   {
@@ -64,15 +73,32 @@ export const products: Product[] = [
     brand: "LD Azouaou (démo)",
     reference: "DEMO-T02",
     category: "Tracteur agricole",
-    description: "Modèle 3D texturé fourni pour le showroom. Les caractéristiques sont à confirmer avec les fiches officielles.",
+    description:
+      "Modèle 3D texturé fourni pour le showroom. Les caractéristiques sont à confirmer avec les fiches officielles.",
     demo: true,
     modelUrl: demoModelUrl,
     images: [],
-    summary: [{ k: "Puissance moteur", v: "À confirmer" }, { k: "Transmission", v: "À confirmer" }],
-    specs: [{ title: "Caractéristiques", rows: [{ k: "Puissance", v: "À confirmer" }, { k: "Poids", v: "À confirmer" }] }],
+    summary: [
+      { k: "Puissance moteur", v: "À confirmer" },
+      { k: "Transmission", v: "À confirmer" },
+    ],
+    specs: [
+      {
+        title: "Caractéristiques",
+        rows: [
+          { k: "Puissance", v: "À confirmer" },
+          { k: "Poids", v: "À confirmer" },
+        ],
+      },
+    ],
     hotspots: [],
     configurations: [
-      { id: "color", label: "Couleur carrosserie", available: false, options: [{ id: "original", label: "Couleur d'origine (texture)" }] },
+      {
+        id: "color",
+        label: "Couleur carrosserie",
+        available: false,
+        options: [{ id: "original", label: "Couleur d'origine (texture)" }],
+      },
     ],
     supportsExploded: false,
   },
@@ -82,7 +108,8 @@ export const products: Product[] = [
     brand: "Modèle CAO GrabCAD",
     reference: "FARMALL-A",
     category: "Tracteur agricole classique",
-    description: "Modèle 3D d'ingénierie détaillé (moteur, transmission, direction, attelage) converti depuis un fichier CAO. Les caractéristiques affichées sont indicatives, en attendant les fiches officielles.",
+    description:
+      "Modèle 3D d'ingénierie détaillé (moteur, transmission, direction, attelage) converti depuis un fichier CAO. Les caractéristiques affichées sont indicatives, en attendant les fiches officielles.",
     demo: true,
     modelUrl: demoModelUrl,
     images: [],
@@ -92,26 +119,96 @@ export const products: Product[] = [
       { k: "Dimensions L × l × H", v: "3,13 × 2,01 × 2,45 m (modèle 3D)" },
     ],
     specs: [
-      { title: "Moteur", rows: [{ k: "Cylindres", v: "4 (modèle 3D)" }, { k: "Puissance", v: "À confirmer" }] },
+      {
+        title: "Moteur",
+        rows: [
+          { k: "Cylindres", v: "4 (modèle 3D)" },
+          { k: "Puissance", v: "À confirmer" },
+        ],
+      },
       { title: "Transmission", rows: [{ k: "Traction", v: "Arrière" }] },
-      { title: "Dimensions", rows: [{ k: "Longueur", v: "3,13 m" }, { k: "Largeur", v: "2,01 m" }, { k: "Hauteur (échappement)", v: "2,45 m" }] },
+      {
+        title: "Dimensions",
+        rows: [
+          { k: "Longueur", v: "3,13 m" },
+          { k: "Largeur", v: "2,01 m" },
+          { k: "Hauteur (échappement)", v: "2,45 m" },
+        ],
+      },
     ],
     hotspots: [
-      { id: "engine", label: "Moteur", position: [0.8, 1.0, -0.66], normal: [0, 0, -1], description: "Moteur 4 cylindres apparent, bougies, ventilateur et alternateur." },
-      { id: "seat", label: "Poste de conduite", position: [-1.1, 1.47, 0], description: "Siège en tôle et volant de direction." },
-      { id: "front-wheels", label: "Roues avant", position: [1.2, 0.35, 0.89], normal: [0, 0, 1], description: "Essieu avant directeur." },
-      { id: "rear-wheels", label: "Roues arrière", position: [-0.88, 0.64, 0.92], normal: [0, 0, 1], description: "Grandes roues motrices avec masses de roue." },
-      { id: "exhaust", label: "Échappement", position: [0.78, 2.45, -0.55], description: "Échappement vertical." },
-      { id: "grille", label: "Calandre", position: [1.56, 1.1, 0], normal: [1, 0, 0], description: "Calandre et radiateur." },
-      { id: "hitch", label: "Relevage arrière", position: [-1.56, 0.7, 0], normal: [-1, 0, 0], description: "Relevage et attelage arrière." },
+      {
+        id: "engine",
+        label: "Moteur",
+        position: [0.8, 1.0, -0.66],
+        normal: [0, 0, -1],
+        description: "Moteur 4 cylindres apparent, bougies, ventilateur et alternateur.",
+      },
+      {
+        id: "seat",
+        label: "Poste de conduite",
+        position: [-1.1, 1.47, 0],
+        description: "Siège en tôle et volant de direction.",
+      },
+      {
+        id: "front-wheels",
+        label: "Roues avant",
+        position: [1.2, 0.35, 0.89],
+        normal: [0, 0, 1],
+        description: "Essieu avant directeur.",
+      },
+      {
+        id: "rear-wheels",
+        label: "Roues arrière",
+        position: [-0.88, 0.64, 0.92],
+        normal: [0, 0, 1],
+        description: "Grandes roues motrices avec masses de roue.",
+      },
+      {
+        id: "exhaust",
+        label: "Échappement",
+        position: [0.78, 2.45, -0.55],
+        description: "Échappement vertical.",
+      },
+      {
+        id: "grille",
+        label: "Calandre",
+        position: [1.56, 1.1, 0],
+        normal: [1, 0, 0],
+        description: "Calandre et radiateur.",
+      },
+      {
+        id: "hitch",
+        label: "Relevage arrière",
+        position: [-1.56, 0.7, 0],
+        normal: [-1, 0, 0],
+        description: "Relevage et attelage arrière.",
+      },
     ],
     configurations: [
       {
-        id: "color", label: "Couleur carrosserie", available: true,
+        id: "color",
+        label: "Couleur carrosserie",
+        available: true,
         options: [
-          { id: "red", label: "Rouge Mahindra", swatch: "oklch(0.53 0.21 23)", material: { names: ["paint"], color: [0.78, 0.086, 0.07, 1] } },
-          { id: "green", label: "Vert agricole", swatch: "oklch(0.45 0.11 150)", material: { names: ["paint"], color: [0.1, 0.4, 0.15, 1] } },
-          { id: "charcoal", label: "Anthracite", swatch: "oklch(0.22 0.005 260)", material: { names: ["paint"], color: [0.08, 0.08, 0.09, 1] } },
+          {
+            id: "red",
+            label: "Rouge Mahindra",
+            swatch: "oklch(0.53 0.21 23)",
+            material: { names: ["paint"], color: [0.78, 0.086, 0.07, 1] },
+          },
+          {
+            id: "green",
+            label: "Vert agricole",
+            swatch: "oklch(0.45 0.11 150)",
+            material: { names: ["paint"], color: [0.1, 0.4, 0.15, 1] },
+          },
+          {
+            id: "charcoal",
+            label: "Anthracite",
+            swatch: "oklch(0.22 0.005 260)",
+            material: { names: ["paint"], color: [0.08, 0.08, 0.09, 1] },
+          },
         ],
       },
     ],
@@ -123,7 +220,8 @@ export const products: Product[] = [
     brand: "LD Azouaou (démo)",
     reference: "DEMO-T01",
     category: "Tracteur agricole à cabine",
-    description: "Modèle 3D générique utilisé pour présenter le showroom. Les données affichées sont fictives en attendant les fiches techniques officielles.",
+    description:
+      "Modèle 3D générique utilisé pour présenter le showroom. Les données affichées sont fictives en attendant les fiches techniques officielles.",
     demo: true,
     modelUrl: "/models/tractor-demo.glb",
     images: [],
@@ -135,36 +233,156 @@ export const products: Product[] = [
       { k: "Dimensions L × l × H", v: "4,72 × 2,38 × 3,03 m (modèle 3D)" },
     ],
     specs: [
-      { title: "Moteur", rows: [{ k: "Type", v: "Diesel (fictif)" }, { k: "Cylindres", v: "4 (fictif)" }, { k: "Puissance", v: "À confirmer" }] },
-      { title: "Transmission", rows: [{ k: "Traction", v: "4 roues motrices (fictif)" }, { k: "Rapports", v: "À confirmer" }] },
-      { title: "Dimensions", rows: [{ k: "Longueur", v: "4,72 m" }, { k: "Largeur", v: "2,38 m" }, { k: "Hauteur", v: "3,03 m" }] },
+      {
+        title: "Moteur",
+        rows: [
+          { k: "Type", v: "Diesel (fictif)" },
+          { k: "Cylindres", v: "4 (fictif)" },
+          { k: "Puissance", v: "À confirmer" },
+        ],
+      },
+      {
+        title: "Transmission",
+        rows: [
+          { k: "Traction", v: "4 roues motrices (fictif)" },
+          { k: "Rapports", v: "À confirmer" },
+        ],
+      },
+      {
+        title: "Dimensions",
+        rows: [
+          { k: "Longueur", v: "4,72 m" },
+          { k: "Largeur", v: "2,38 m" },
+          { k: "Hauteur", v: "3,03 m" },
+        ],
+      },
       { title: "Poids", rows: [{ k: "À vide", v: "À confirmer" }] },
       { title: "Performance", rows: [{ k: "Capacité de relevage", v: "À confirmer" }] },
-      { title: "Équipement", rows: [{ k: "Cabine", v: "Vitrée (modèle 3D)" }, { k: "Attelage", v: "Barre arrière" }] },
+      {
+        title: "Équipement",
+        rows: [
+          { k: "Cabine", v: "Vitrée (modèle 3D)" },
+          { k: "Attelage", v: "Barre arrière" },
+        ],
+      },
     ],
     hotspots: [
-      { id: "engine", label: "Moteur", position: [0, 1.9, -1.4], description: "Bloc moteur sous le capot avant.", specs: [{ k: "Type", v: "Diesel (fictif)" }] },
-      { id: "cabin", label: "Cabine", position: [0, 2.75, 0.55], description: "Cabine vitrée avec bonne visibilité pour l'opérateur." },
-      { id: "front-wheels", label: "Roues avant", position: [1.0, 0.6, -1.6], normal: [1, 0, 0], description: "Roues directrices avant." },
-      { id: "rear-wheels", label: "Roues arrière", position: [1.2, 1.0, 0.9], normal: [1, 0, 0], description: "Grandes roues arrière motrices pour la traction." },
-      { id: "exhaust", label: "Échappement", position: [-0.55, 2.9, -0.5], description: "Sortie d'échappement verticale." },
-      { id: "grille", label: "Calandre", position: [0, 1.4, -2.35], normal: [0, 0, -1], description: "Calandre avant et refroidissement." },
-      { id: "hitch", label: "Attelage arrière", position: [0, 0.6, 2.3], normal: [0, 0, 1], description: "Barre d'attelage pour outils tractés." },
+      {
+        id: "engine",
+        label: "Moteur",
+        position: [0, 1.9, -1.4],
+        description: "Bloc moteur sous le capot avant.",
+        specs: [{ k: "Type", v: "Diesel (fictif)" }],
+      },
+      {
+        id: "cabin",
+        label: "Cabine",
+        position: [0, 2.75, 0.55],
+        description: "Cabine vitrée avec bonne visibilité pour l'opérateur.",
+      },
+      {
+        id: "front-wheels",
+        label: "Roues avant",
+        position: [1.0, 0.6, -1.6],
+        normal: [1, 0, 0],
+        description: "Roues directrices avant.",
+      },
+      {
+        id: "rear-wheels",
+        label: "Roues arrière",
+        position: [1.2, 1.0, 0.9],
+        normal: [1, 0, 0],
+        description: "Grandes roues arrière motrices pour la traction.",
+      },
+      {
+        id: "exhaust",
+        label: "Échappement",
+        position: [-0.55, 2.9, -0.5],
+        description: "Sortie d'échappement verticale.",
+      },
+      {
+        id: "grille",
+        label: "Calandre",
+        position: [0, 1.4, -2.35],
+        normal: [0, 0, -1],
+        description: "Calandre avant et refroidissement.",
+      },
+      {
+        id: "hitch",
+        label: "Attelage arrière",
+        position: [0, 0.6, 2.3],
+        normal: [0, 0, 1],
+        description: "Barre d'attelage pour outils tractés.",
+      },
     ],
     configurations: [
       {
-        id: "color", label: "Couleur carrosserie", available: true,
+        id: "color",
+        label: "Couleur carrosserie",
+        available: true,
         options: [
-          { id: "original", label: "Vert sauge d'origine", swatch: "oklch(0.86 0.07 140)", material: { names: BODY, color: [1, 1, 1, 1] } },
-          { id: "red", label: "Rouge Mahindra", swatch: "oklch(0.53 0.21 23)", material: { names: BODY, color: [1, 0.04, 0.05, 1] } },
-          { id: "green", label: "Vert agricole", swatch: "oklch(0.45 0.11 150)", material: { names: BODY, color: [0.25, 0.75, 0.35, 1] } },
-          { id: "charcoal", label: "Anthracite", swatch: "oklch(0.22 0.005 260)", material: { names: BODY, color: [0.12, 0.12, 0.13, 1] } },
+          {
+            id: "original",
+            label: "Vert sauge d'origine",
+            swatch: "oklch(0.86 0.07 140)",
+            material: { names: BODY, color: [1, 1, 1, 1] },
+          },
+          {
+            id: "red",
+            label: "Rouge Mahindra",
+            swatch: "oklch(0.53 0.21 23)",
+            material: { names: BODY, color: [1, 0.04, 0.05, 1] },
+          },
+          {
+            id: "green",
+            label: "Vert agricole",
+            swatch: "oklch(0.45 0.11 150)",
+            material: { names: BODY, color: [0.25, 0.75, 0.35, 1] },
+          },
+          {
+            id: "charcoal",
+            label: "Anthracite",
+            swatch: "oklch(0.22 0.005 260)",
+            material: { names: BODY, color: [0.12, 0.12, 0.13, 1] },
+          },
         ],
       },
-      { id: "tires", label: "Pneumatiques", available: false, options: [{ id: "std", label: "Agraires standard" }, { id: "wide", label: "Basse pression" }] },
-      { id: "cabin", label: "Équipement cabine", available: false, options: [{ id: "ac", label: "Climatisation" }, { id: "radio", label: "Radio" }] },
-      { id: "accessories", label: "Accessoires", available: false, options: [{ id: "lights", label: "Phares de travail" }, { id: "weights", label: "Masses avant" }] },
-      { id: "rear", label: "Outils arrière", available: false, options: [{ id: "plough", label: "Charrue" }, { id: "disc", label: "Pulvériseur à disques" }] },
+      {
+        id: "tires",
+        label: "Pneumatiques",
+        available: false,
+        options: [
+          { id: "std", label: "Agraires standard" },
+          { id: "wide", label: "Basse pression" },
+        ],
+      },
+      {
+        id: "cabin",
+        label: "Équipement cabine",
+        available: false,
+        options: [
+          { id: "ac", label: "Climatisation" },
+          { id: "radio", label: "Radio" },
+        ],
+      },
+      {
+        id: "accessories",
+        label: "Accessoires",
+        available: false,
+        options: [
+          { id: "lights", label: "Phares de travail" },
+          { id: "weights", label: "Masses avant" },
+        ],
+      },
+      {
+        id: "rear",
+        label: "Outils arrière",
+        available: false,
+        options: [
+          { id: "plough", label: "Charrue" },
+          { id: "disc", label: "Pulvériseur à disques" },
+        ],
+      },
     ],
     supportsExploded: false,
   },

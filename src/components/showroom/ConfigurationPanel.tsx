@@ -3,14 +3,26 @@ import { Check, Lock } from "lucide-react";
 
 export type Selection = Record<string, string>;
 
-export function ConfigurationPanel({ categories, selection, onChange }: { categories: ConfigCategory[]; selection: Selection; onChange: (cat: string, opt: string) => void }) {
+export function ConfigurationPanel({
+  categories,
+  selection,
+  onChange,
+}: {
+  categories: ConfigCategory[];
+  selection: Selection;
+  onChange: (cat: string, opt: string) => void;
+}) {
   return (
     <div className="space-y-5">
       {categories.map((c) => (
         <div key={c.id}>
           <div className="mb-2 flex items-center justify-between">
             <h3 className="font-sans text-xs font-bold normal-case tracking-wide">{c.label}</h3>
-            {!c.available && <span className="flex items-center gap-1 text-[10px] uppercase tracking-wider text-muted-foreground"><Lock className="h-3 w-3" /> Bientôt disponible</span>}
+            {!c.available && (
+              <span className="flex items-center gap-1 text-[10px] uppercase tracking-wider text-muted-foreground">
+                <Lock className="h-3 w-3" /> Bientôt disponible
+              </span>
+            )}
           </div>
           <div className="flex flex-wrap gap-2">
             {c.options.map((o) => {
@@ -24,7 +36,12 @@ export function ConfigurationPanel({ categories, selection, onChange }: { catego
                   onClick={() => onChange(c.id, o.id)}
                   className={`flex items-center gap-2 border px-3 py-2 text-xs transition-all disabled:cursor-not-allowed disabled:opacity-40 ${on ? "border-primary bg-primary/5 font-semibold" : "border-border hover:border-foreground"}`}
                 >
-                  {o.swatch && <span className="h-4 w-4 rounded-full border border-border" style={{ background: o.swatch }} />}
+                  {o.swatch && (
+                    <span
+                      className="h-4 w-4 rounded-full border border-border"
+                      style={{ background: o.swatch }}
+                    />
+                  )}
                   {o.label}
                   {on && <Check className="h-3 w-3 text-primary" />}
                 </button>
