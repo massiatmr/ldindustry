@@ -1,4 +1,4 @@
-const model = { url: "/models/tractor-demo.glb" };
+const model = { url: "/models/mahindra-8000-ready.glb" };
 
 export const manufacturerSource = "https://www.mahindrafarmequipment.com/algeria/series/00-series/";
 export const technicalSource =

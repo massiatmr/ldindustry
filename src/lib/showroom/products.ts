@@ -3,7 +3,7 @@
  * from a database table without changing the components.
  * All values below are DEMONSTRATION data, not manufacturer specifications.
  */
-const demoModelUrl = "/models/tractor-demo.glb";
+const demoModelUrl = "/models/mahindra-8000-ready.glb";
 
 export type Vec3 = [number, number, number];
 
@@ -223,7 +223,7 @@ export const products: Product[] = [
     description:
       "Modèle 3D générique utilisé pour présenter le showroom. Les données affichées sont fictives en attendant les fiches techniques officielles.",
     demo: true,
-    modelUrl: "/models/tractor-demo.glb",
+    modelUrl: "/models/mahindra-8000-ready.glb",
     images: [],
     summary: [
       { k: "Puissance moteur", v: "— CV (fictif)" },

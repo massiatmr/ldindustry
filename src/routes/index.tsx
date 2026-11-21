@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { ArrowRight, ArrowUpRight, Factory, Cog, Wrench, Phone, MapPin } from "lucide-react";
 import { BrandLogo } from "@/components/BrandLogo";
 import { HomeShowroom } from "@/components/showroom/HomeShowroom";
-import orchard from "@/assets/kabylie-olive-orchard.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -27,13 +26,23 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const tractorImage =
-  "https://www.mahindratractor.com/sites/default/files/2024-07/585-DI-XP-PLUS%20-%20desktop_1_11zon.jpg";
+const tractorImages = {
+  t585: "https://ldindustry.lovable.app/__l5e/assets-v1/5655a557-6c8f-4463-8907-4ae17a2a9e5c/tracteur-585.png",
+  t705: "https://ldindustry.lovable.app/__l5e/assets-v1/f4991df4-20ef-4340-afb8-b0776c965207/tracteur-705.png",
+  t8000:
+    "https://ldindustry.lovable.app/__l5e/assets-v1/8cc0455a-6595-47e1-b716-c3e775927310/tracteur-8000.png",
+  t9200:
+    "https://ldindustry.lovable.app/__l5e/assets-v1/595e6e45-dabe-4b34-84da-b37c8bb49746/tracteur-9200.png",
+};
+const siegeImage =
+  "https://ldindustry.lovable.app/__l5e/assets-v1/d701cacc-9baa-45bb-ad81-625066f32e4c/siege-oued-aissi.png";
+const discHarrowImage =
+  "https://ldindustry.lovable.app/__l5e/assets-v1/70cd256e-c843-4a72-80dc-90a53a38adbb/pulveriseur-disques.jpg";
 const tractors = [
-  { name: "Mahindra 585 DI", hp: "50 CV", img: tractorImage, tag: "2WD" },
-  { name: "Mahindra 705", hp: "60 CV", img: tractorImage, tag: "2WD" },
-  { name: "Mahindra 8000", hp: "75 CV", img: tractorImage, tag: "4WD" },
-  { name: "Mahindra 9200", hp: "92 CV", img: tractorImage, tag: "4WD" },
+  { name: "Mahindra 585 DI", hp: "50 CV", img: tractorImages.t585, tag: "2WD" },
+  { name: "Mahindra 705", hp: "60 CV", img: tractorImages.t705, tag: "2WD" },
+  { name: "Mahindra 8000", hp: "75 CV", img: tractorImages.t8000, tag: "4WD" },
+  { name: "Mahindra 9200", hp: "92 CV", img: tractorImages.t9200, tag: "4WD" },
 ];
 const timeline = [
   {
@@ -227,8 +236,12 @@ function Index() {
                 réglementaire, bien avant le cahier des charges du Ministère de l'Industrie et des
                 Mines.
               </p>
-              <div className="mt-10">
-                <BrandLogo variant="color" className="h-14" />
+              <div className="mt-10 rounded bg-carbon-foreground p-3">
+                <img
+                  src="https://ldindustry.lovable.app/__l5e/assets-v1/08c7a1f5-e5cb-41fd-a20c-f871bdc7d8b6/mahindra-logo.png"
+                  alt="Mahindra"
+                  className="h-14 w-auto"
+                />
               </div>
             </div>
             <ol className="relative border-l border-carbon-foreground/15">
@@ -348,13 +361,13 @@ function Index() {
           </div>
           <div className="relative">
             <img
-              src={orchard}
-              alt="Oliviers de Kabylie près de Tizi Ouzou"
-              className="aspect-[4/3] w-full object-cover shadow-red"
+              src={siegeImage}
+              alt="Siège LD Azouaou à Oued Aïssi"
+              className="w-full object-cover shadow-red"
             />
             <img
-              src={tractorImage}
-              alt="Tracteur Mahindra au travail"
+              src={discHarrowImage}
+              alt="Pulvériseur à disques"
               className="absolute -bottom-12 -left-8 w-1/2 border-4 border-carbon bg-carbon-foreground object-cover"
             />
           </div>
