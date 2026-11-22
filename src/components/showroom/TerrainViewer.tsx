@@ -202,8 +202,6 @@ export function TerrainViewer({
   const [ready, setReady] = useState(false);
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState(false);
-  const onSelectRef = useRef(onSelect);
-  onSelectRef.current = onSelect;
 
   useEffect(() => {
     const container = mount.current;
@@ -266,6 +264,7 @@ export function TerrainViewer({
     studioGround.receiveShadow = true;
 
     const tractor = new THREE.Group();
+    scene.add(tractor);
     const anchors: Anchor[] = [];
     const hotspotEls = new Map<CapabilityId, HTMLButtonElement>();
     const state = {
@@ -322,7 +321,9 @@ export function TerrainViewer({
             point,
           });
         });
-        pendingHotspots.forEach((element, id) => hotspotEls.set(id, element));
+        pendingHotspots.forEach((element, id) => {
+          if (element) hotspotEls.set(id, element);
+        });
         pendingHotspots.clear();
         setReady(true);
       },
@@ -464,8 +465,13 @@ export function TerrainViewer({
           key={capability.id}
           ref={(element) => {
             const state = sceneRef.current;
-            if (state) state.hotspotEls.set(capability.id, element as HTMLButtonElement);
-            else pendingHotspots.set(capability.id, element as HTMLButtonElement);
+            if (!element) {
+              pendingHotspots.delete(capability.id);
+              state?.hotspotEls.delete(capability.id);
+              return;
+            }
+            if (state) state.hotspotEls.set(capability.id, element);
+            else pendingHotspots.set(capability.id, element);
           }}
           type="button"
           aria-label={`${capability.label} — ${capability.part}`}
