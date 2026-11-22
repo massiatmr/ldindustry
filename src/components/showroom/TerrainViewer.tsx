@@ -6,7 +6,6 @@ import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment
 import { capabilities, mahindra8000, type CapabilityId } from "@/lib/showroom/mahindra8000";
 
 const TRACTOR_SIZE = 4.2;
-const FLAT_RADIUS = 11;
 
 type TerrainViewerProps = {
   terrain: boolean;
@@ -18,35 +17,48 @@ type TerrainViewerProps = {
 
 type Anchor = { id: CapabilityId; label: string; part: string; point: THREE.Vector3 };
 
+const GROUND_SIZE = 400;
+const GROUND_SEGMENTS = 400;
+
+function fbm(x: number, z: number, octaves = 4) {
+  let value = 0;
+  let amplitude = 0.5;
+  let frequency = 1;
+  for (let i = 0; i < octaves; i++) {
+    value += amplitude * (Math.sin(x * 0.08 * frequency) * Math.cos(z * 0.07 * frequency));
+    amplitude *= 0.5;
+    frequency *= 2;
+  }
+  return value;
+}
+
 function heightAt(x: number, z: number) {
-  const flat = THREE.MathUtils.smoothstep(Math.hypot(x, z), FLAT_RADIUS, FLAT_RADIUS + 26);
-  return (
-    flat *
-    (Math.sin(x * 0.055) * Math.cos(z * 0.048) * 2.4 +
-      Math.sin(x * 0.021 + 1.7) * Math.cos(z * 0.017) * 3.6)
-  );
+  const dist = Math.hypot(x, z);
+  const flatten = THREE.MathUtils.smoothstep(dist, 14, 60);
+  return flatten * fbm(x, z) * 3.2;
 }
 
 function makeGround() {
-  const size = 260;
-  const segments = 150;
-  const geometry = new THREE.PlaneGeometry(size, size, segments, segments);
+  const geometry = new THREE.PlaneGeometry(GROUND_SIZE, GROUND_SIZE, GROUND_SEGMENTS, GROUND_SEGMENTS);
   geometry.rotateX(-Math.PI / 2);
   const position = geometry.attributes.position as THREE.BufferAttribute;
   const colors = new Float32Array(position.count * 3);
-  const soil = new THREE.Color("#5d4a2f");
-  const soilDry = new THREE.Color("#7a6540");
-  const grass = new THREE.Color("#6a7a3d");
-  const grassDry = new THREE.Color("#8a8a4e");
+  const grass = new THREE.Color("#5a6b35");
+  const grassDry = new THREE.Color("#7d8a4a");
+  const soil = new THREE.Color("#6b5a38");
   const scratch = new THREE.Color();
   for (let i = 0; i < position.count; i++) {
     const x = position.getX(i);
     const z = position.getZ(i);
     position.setY(i, heightAt(x, z));
-    const patch = Math.sin(x * 0.22 + 3) * Math.cos(z * 0.19) + Math.sin(x * 0.07) * 0.5;
-    scratch
-      .copy(patch > 0.55 ? grass : patch > 0 ? grassDry : soil)
-      .lerp(soilDry, Math.abs(patch) * 0.3);
+    const n = fbm(x + 100, z + 100, 3);
+    const dryness = THREE.MathUtils.clamp(n * 1.2 + 0.5, 0, 1);
+    scratch.copy(grass).lerp(grassDry, dryness);
+    const dist = Math.hypot(x, z);
+    if (dist > 30) {
+      const soilMix = THREE.MathUtils.smoothstep(dist, 30, 80);
+      scratch.lerp(soil, soilMix * 0.4);
+    }
     colors[i * 3] = scratch.r;
     colors[i * 3 + 1] = scratch.g;
     colors[i * 3 + 2] = scratch.b;
@@ -61,111 +73,18 @@ function makeGround() {
   return new THREE.Mesh(geometry, material);
 }
 
-function makeFurrows() {
-  const group = new THREE.Group();
-  const ridgeGeometry = new THREE.BoxGeometry(0.34, 0.14, 30);
-  const ridgeMaterial = new THREE.MeshStandardMaterial({ color: "#4c3b22", roughness: 1 });
-  const ridges = new THREE.InstancedMesh(ridgeGeometry, ridgeMaterial, 24);
-  const matrix = new THREE.Matrix4();
-  for (let i = 0; i < 24; i++) {
-    matrix.makeTranslation(-13 + i * 1.13, 0.07, 0);
-    matrix.multiply(new THREE.Matrix4().makeRotationY((Math.random() - 0.5) * 0.012));
-    ridges.setMatrixAt(i, matrix);
-  }
-  group.add(ridges);
-
-  const rutMaterial = new THREE.MeshStandardMaterial({ color: "#33270f", roughness: 1 });
-  for (const offset of [-0.78, 0.78]) {
-    const rut = new THREE.Mesh(new THREE.BoxGeometry(32, 0.06, 0.3), rutMaterial);
-    rut.position.set(0, 0.03, offset);
-    group.add(rut);
-  }
-  return group;
-}
-
-function makeTrees() {
-  const group = new THREE.Group();
-  const trunkGeometry = new THREE.CylinderGeometry(0.16, 0.26, 2.2, 6);
-  const trunkMaterial = new THREE.MeshStandardMaterial({ color: "#5b4632", roughness: 1 });
-  const canopyGeometry = new THREE.IcosahedronGeometry(1.5, 1);
-  const canopyMaterial = new THREE.MeshStandardMaterial({
-    color: "#66744a",
-    roughness: 1,
-    flatShading: true,
-  });
-  const count = 46;
-  const trunks = new THREE.InstancedMesh(trunkGeometry, trunkMaterial, count);
-  const canopies = new THREE.InstancedMesh(canopyGeometry, canopyMaterial, count);
-  trunks.castShadow = true;
-  canopies.castShadow = true;
-  const matrix = new THREE.Matrix4();
-  const position = new THREE.Vector3();
-  const quaternion = new THREE.Quaternion();
-  const scale = new THREE.Vector3();
-  const color = new THREE.Color();
-  let placed = 0;
-  let guard = 0;
-  while (placed < count && guard < 600) {
-    guard++;
-    const angle = Math.random() * Math.PI * 2;
-    const radius = FLAT_RADIUS + 6 + Math.random() * 62;
-    const x = Math.cos(angle) * radius;
-    const z = Math.sin(angle) * radius * 0.8;
-    const y = heightAt(x, z);
-    const s = 0.75 + Math.random() * 0.7;
-    matrix.compose(
-      position.set(x, y + 1.1 * s, z),
-      quaternion.setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.random() * Math.PI),
-      scale.set(s, s, s),
-    );
-    trunks.setMatrixAt(placed, matrix);
-    matrix.compose(
-      position.set(x, y + 2.6 * s, z),
-      quaternion.identity(),
-      scale.set(s, s * 0.82, s),
-    );
-    canopies.setMatrixAt(placed, matrix);
-    color.setHSL(0.24, 0.28 + Math.random() * 0.12, 0.32 + Math.random() * 0.12);
-    canopies.setColorAt(placed, color);
-    placed++;
-  }
-  group.add(trunks, canopies);
-  return group;
-}
-
-function makeHills() {
-  const group = new THREE.Group();
-  const material = new THREE.MeshStandardMaterial({
-    color: "#7d92a0",
-    roughness: 1,
-    flatShading: true,
-  });
-  for (let i = 0; i < 9; i++) {
-    const angle = (i / 9) * Math.PI * 2 + 0.35;
-    const radius = 130 + Math.random() * 45;
-    const hill = new THREE.Mesh(
-      new THREE.ConeGeometry(28 + Math.random() * 22, 16 + Math.random() * 14, 5),
-      material,
-    );
-    hill.position.set(Math.cos(angle) * radius, -3, Math.sin(angle) * radius * 0.85);
-    hill.rotation.y = Math.random() * Math.PI;
-    group.add(hill);
-  }
-  return group;
-}
-
 function makeSky() {
-  const geometry = new THREE.SphereGeometry(320, 24, 16);
+  const geometry = new THREE.SphereGeometry(380, 32, 16);
   const material = new THREE.ShaderMaterial({
     side: THREE.BackSide,
     depthWrite: false,
     uniforms: {
-      top: { value: new THREE.Color("#5f97b8") },
-      horizon: { value: new THREE.Color("#e7ddbc") },
+      top: { value: new THREE.Color("#4a90c2") },
+      horizon: { value: new THREE.Color("#cfe0ec") },
     },
     vertexShader: `varying vec3 v_position; void main() { v_position = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
     fragmentShader: `uniform vec3 top; uniform vec3 horizon; varying vec3 v_position;
-      void main() { float h = clamp(v_position.y / 220.0, 0.0, 1.0); gl_FragColor = vec4(mix(horizon, top, pow(h, 0.7)), 1.0); }`,
+      void main() { float h = clamp(v_position.y / 280.0, 0.0, 1.0); gl_FragColor = vec4(mix(horizon, top, pow(h, 0.6)), 1.0); }`,
   });
   return new THREE.Mesh(geometry, material);
 }
@@ -253,7 +172,7 @@ export function TerrainViewer({
     const ground = makeGround();
     ground.receiveShadow = true;
     const environment = new THREE.Group();
-    environment.add(ground, makeFurrows(), makeTrees(), makeHills(), makeSky());
+    environment.add(ground, makeSky());
     scene.add(environment);
 
     const studioGround = new THREE.Mesh(
@@ -293,11 +212,12 @@ export function TerrainViewer({
         const naturalSize = box.getSize(new THREE.Vector3());
         const scale = TRACTOR_SIZE / Math.max(naturalSize.x, naturalSize.y, naturalSize.z);
         object.scale.setScalar(scale);
+        const longest = Math.max(naturalSize.x, naturalSize.y, naturalSize.z);
+        if (naturalSize.z > naturalSize.x) object.rotation.y = Math.PI / 2;
         const scaled = new THREE.Box3().setFromObject(object);
         const size = scaled.getSize(new THREE.Vector3());
         const center = scaled.getCenter(new THREE.Vector3());
         object.position.set(-center.x, -scaled.min.y, -center.z);
-        if (size.z > size.x) object.rotation.y = Math.PI / 2;
         object.traverse((child) => {
           if (child instanceof THREE.Mesh) {
             child.castShadow = true;
@@ -416,7 +336,7 @@ export function TerrainViewer({
     if (terrain) {
       if (!studioGround.parent) scene.add(studioGround);
       scene.background = null;
-      scene.fog = new THREE.Fog(0xe7ddbc, 70, 300);
+      scene.fog = new THREE.Fog(0xcfe0ec, 120, 350);
       sun.intensity = 2.6;
     } else {
       scene.background = new THREE.Color("#ececea");
@@ -502,7 +422,7 @@ export function TerrainViewer({
         </div>
       )}
       <span className="absolute bottom-7 right-5 z-20 bg-card/90 px-2 py-1 text-[10px] uppercase tracking-wider text-muted-foreground">
-        {terrain ? "Champ d’oliviers · scène 3D" : "Studio · modèle 3D"}
+        {terrain ? "Terrain · scène 3D" : "Studio · modèle 3D"}
       </span>
     </div>
   );
