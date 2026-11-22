@@ -1,12 +1,20 @@
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRight, Box, Mountain, Loader2, ArrowRight } from "lucide-react";
+import {
+  ArrowUpRight,
+  Box,
+  Mountain,
+  Loader2,
+  ArrowRight,
+  RotateCcw,
+  Maximize,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CapabilityTabs, useCapabilityTour } from "./CapabilityTabs";
 import { capabilities, mahindra8000 } from "@/lib/showroom/mahindra8000";
 
 const Viewer = lazy(() =>
-  import("./CapabilityViewer").then((module) => ({ default: module.CapabilityViewer })),
+  import("./TerrainViewer").then((module) => ({ default: module.TerrainViewer })),
 );
 
 export function HomeShowroom() {
@@ -14,6 +22,7 @@ export function HomeShowroom() {
   const [visible, setVisible] = useState(false);
   const { active, select, playing, toggle, pause } = useCapabilityTour(visible);
   const [terrain, setTerrain] = useState(false);
+  const [rotate, setRotate] = useState(true);
   const feature = capabilities.find((item) => item.id === active) ?? capabilities[0];
   useEffect(() => {
     const element = section.current;
@@ -82,15 +91,23 @@ export function HomeShowroom() {
             className="flex gap-1 rounded border border-border bg-card/60 p-1 transition-colors"
           >
             <Button
-              variant={terrain ? "ghost" : "secondary"}
+              variant={rotate ? "secondary" : "ghost"}
               size="sm"
-              aria-pressed={!terrain}
+              aria-pressed={rotate}
+              onClick={() => setRotate((value) => !value)}
+            >
+              <RotateCcw /> Rotation
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              title="Plein écran"
               onClick={() => {
-                setTerrain(false);
-                pause();
+                if (document.fullscreenElement) void document.exitFullscreen();
+                else void section.current?.requestFullscreen();
               }}
             >
-              <Box /> Studio
+              <Maximize /> Plein écran
             </Button>
             <Button
               variant={terrain ? "secondary" : "ghost"}
@@ -103,13 +120,33 @@ export function HomeShowroom() {
             >
               <Mountain /> Terrain
             </Button>
+            <Button
+              variant={terrain ? "ghost" : "secondary"}
+              size="sm"
+              aria-pressed={!terrain}
+              onClick={() => {
+                setTerrain(false);
+                pause();
+              }}
+            >
+              <Box /> Studio
+            </Button>
           </div>
         </div>
         <div className="grid border-b border-border lg:grid-cols-[minmax(0,1fr)_320px]">
           <div className="h-[420px] min-w-0 sm:h-[510px]">
             {visible ? (
               <Suspense fallback={<Loading />}>
-                <Viewer active={active} onSelect={select} terrain={terrain} onInteract={pause} />
+                <Viewer
+                  active={active}
+                  onSelect={select}
+                  terrain={terrain}
+                  autoRotate={rotate}
+                  onInteract={() => {
+                    pause();
+                    setRotate(false);
+                  }}
+                />
               </Suspense>
             ) : (
               <Loading />
