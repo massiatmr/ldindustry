@@ -70,12 +70,28 @@ const timeline = [
 function Index() {
   const [i, setI] = useState(0);
   const [scrolled, setScrolled] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
   useEffect(() => {
     const id = setInterval(() => setI((v) => (v + 1) % tractors.length), 6000);
-    const on = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", on);
+    const revealItems = document.querySelectorAll<HTMLElement>("[data-reveal]");
+    const revealObserver = new IntersectionObserver(
+      (entries) =>
+        entries.forEach(
+          (entry) => entry.isIntersecting && entry.target.classList.add("is-visible"),
+        ),
+      { threshold: 0.12 },
+    );
+    revealItems.forEach((item) => revealObserver.observe(item));
+    const on = () => {
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      setScrolled(window.scrollY > 40);
+      setScrollProgress(maxScroll > 0 ? Math.min(window.scrollY / maxScroll, 1) : 0);
+    };
+    on();
+    window.addEventListener("scroll", on, { passive: true });
     return () => {
       clearInterval(id);
+      revealObserver.disconnect();
       window.removeEventListener("scroll", on);
     };
   }, []);
@@ -86,8 +102,20 @@ function Index() {
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${scrolled ? "bg-carbon/90 py-3 backdrop-blur-md" : "py-6"}`}
       >
+        <span
+          aria-hidden="true"
+          className="absolute inset-x-0 bottom-0 h-px bg-carbon-foreground/10"
+        >
+          <span
+            className="block h-full origin-left bg-primary transition-transform duration-150"
+            style={{ transform: `scaleX(${scrollProgress})` }}
+          />
+        </span>
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6">
-          <BrandLogo variant="white" className="h-9 md:h-11" />
+          <BrandLogo
+            variant="white"
+            className="h-9 transition-transform duration-300 hover:scale-105 md:h-11"
+          />
           <nav className="hidden gap-8 text-sm font-medium text-carbon-muted md:flex">
             {["Histoire", "Gamme", "Showroom", "Industrie", "Contact"].map((n) => (
               <a
@@ -128,7 +156,7 @@ function Index() {
             <div className="mt-4 flex flex-wrap gap-2 lg:mt-7 lg:gap-3">
               <a
                 href="#gamme"
-                className="group flex items-center gap-2 bg-primary px-3 py-3 text-xs font-semibold text-primary-foreground shadow-red sm:px-6 sm:text-sm lg:py-3.5"
+                className="group flex items-center gap-2 bg-primary px-3 py-3 text-xs font-semibold text-primary-foreground shadow-red transition-transform duration-300 hover:-translate-y-1 sm:px-6 sm:text-sm lg:py-3.5"
               >
                 Découvrir la gamme{" "}
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -141,7 +169,10 @@ function Index() {
               </a>
             </div>
           </div>
-          <div className="relative h-[200px] min-w-0 sm:h-[300px] lg:h-full lg:max-h-[62svh]">
+          <div
+            className="relative h-[200px] min-w-0 sm:h-[300px] lg:h-full lg:max-h-[62svh]"
+            style={{ transform: `translateY(${scrollProgress * 18}px)` }}
+          >
             <div className="absolute inset-0 overflow-hidden lg:[clip-path:polygon(8%_0,100%_0,100%_100%,0_100%)]">
               {tractors.map((t, k) => (
                 <img
@@ -203,7 +234,10 @@ function Index() {
       <HomeShowroom />
 
       {/* Stats */}
-      <section className="border-y border-carbon-foreground/10 bg-carbon-2">
+      <section
+        data-reveal
+        className="reveal-section border-y border-carbon-foreground/10 bg-carbon-2"
+      >
         <div className="mx-auto grid max-w-7xl grid-cols-2 md:grid-cols-4">
           {[
             ["2009", "Fondation"],
@@ -211,7 +245,10 @@ function Index() {
             ["4", "Modèles 50 → 92 CV"],
             ["100%", "Normes internationales"],
           ].map(([v, l]) => (
-            <div key={l} className="border-carbon-foreground/10 p-8 md:border-r md:last:border-r-0">
+            <div
+              key={l}
+              className="group border-carbon-foreground/10 p-8 transition-colors hover:bg-carbon-foreground/[0.03] md:border-r md:last:border-r-0"
+            >
               <div className="font-display text-5xl font-bold text-primary">{v}</div>
               <div className="mt-2 text-sm text-carbon-muted">{l}</div>
             </div>
@@ -220,7 +257,7 @@ function Index() {
       </section>
 
       {/* Histoire */}
-      <section id="histoire" className="grid-lines relative py-32">
+      <section data-reveal id="histoire" className="reveal-section grid-lines relative py-32">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-16 lg:grid-cols-[1fr_1.4fr]">
             <div className="lg:sticky lg:top-32 lg:self-start">
@@ -261,7 +298,10 @@ function Index() {
       </section>
 
       {/* Marquee */}
-      <div className="overflow-hidden border-y border-carbon-foreground/10 bg-primary py-5 text-primary-foreground">
+      <div
+        data-reveal
+        className="reveal-section overflow-hidden border-y border-carbon-foreground/10 bg-primary py-5 text-primary-foreground"
+      >
         <div className="flex w-max animate-marquee gap-12 whitespace-nowrap font-display text-3xl font-bold uppercase">
           {Array(2)
             .fill([
@@ -282,7 +322,11 @@ function Index() {
       </div>
 
       {/* Gamme */}
-      <section id="gamme" className="bg-background py-32 text-foreground">
+      <section
+        data-reveal
+        id="gamme"
+        className="reveal-section bg-background py-32 text-foreground"
+      >
         <div className="mx-auto max-w-7xl px-6">
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div>
@@ -297,8 +341,14 @@ function Index() {
             </p>
           </div>
           <div className="mt-16 grid gap-6 md:grid-cols-2">
-            {tractors.map((t) => (
-              <article key={t.name} className="group relative overflow-hidden bg-carbon">
+            {tractors.map((t, k) => (
+              <button
+                key={t.name}
+                type="button"
+                aria-label={`Afficher ${t.name} dans le hero`}
+                onClick={() => setI(k)}
+                className="group relative block w-full overflow-hidden bg-carbon text-left transition-transform duration-500 hover:-translate-y-2 hover:shadow-red"
+              >
                 <img
                   src={t.img}
                   alt={t.name}
@@ -319,14 +369,14 @@ function Index() {
                     <ArrowUpRight />
                   </span>
                 </div>
-              </article>
+              </button>
             ))}
           </div>
         </div>
       </section>
 
       {/* Industrie */}
-      <section id="industrie" className="relative overflow-hidden py-32">
+      <section data-reveal id="industrie" className="reveal-section relative overflow-hidden py-32">
         <div className="mx-auto grid max-w-7xl items-center gap-16 px-6 lg:grid-cols-2">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">
@@ -350,9 +400,9 @@ function Index() {
                 return (
                   <div
                     key={l as string}
-                    className="border border-carbon-foreground/10 bg-carbon-2 p-5 transition-colors hover:border-primary"
+                    className="group border border-carbon-foreground/10 bg-carbon-2 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-red"
                   >
-                    <I className="h-7 w-7 text-primary" />
+                    <I className="h-7 w-7 text-primary transition-transform duration-300 group-hover:scale-110" />
                     <div className="mt-3 font-semibold">{l as string}</div>
                   </div>
                 );
@@ -375,7 +425,11 @@ function Index() {
       </section>
 
       {/* Contact / footer */}
-      <footer id="contact" className="border-t border-carbon-foreground/10 bg-carbon-2">
+      <footer
+        data-reveal
+        id="contact"
+        className="reveal-section border-t border-carbon-foreground/10 bg-carbon-2"
+      >
         <div className="mx-auto max-w-7xl px-6 py-24">
           <h2 className="text-5xl font-bold md:text-7xl">
             Parlons de <span className="text-primary">votre exploitation</span>

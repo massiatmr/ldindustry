@@ -76,12 +76,19 @@ export function HomeShowroom() {
               </div>
             ))}
           </div>
-          <div role="group" aria-label="Décor du showroom" className="flex gap-1">
+          <div
+            role="group"
+            aria-label="Décor du showroom"
+            className="flex gap-1 rounded border border-border bg-card/60 p-1 transition-colors"
+          >
             <Button
               variant={terrain ? "ghost" : "secondary"}
               size="sm"
               aria-pressed={!terrain}
-              onClick={() => setTerrain(false)}
+              onClick={() => {
+                setTerrain(false);
+                pause();
+              }}
             >
               <Box /> Studio
             </Button>
@@ -89,7 +96,10 @@ export function HomeShowroom() {
               variant={terrain ? "secondary" : "ghost"}
               size="sm"
               aria-pressed={terrain}
-              onClick={() => setTerrain(true)}
+              onClick={() => {
+                setTerrain(true);
+                pause();
+              }}
             >
               <Mountain /> Terrain
             </Button>

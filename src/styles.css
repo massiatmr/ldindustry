@@ -110,12 +110,22 @@
   --sidebar-accent-foreground: oklch(0.18 0.008 260);
   --sidebar-border: oklch(0.91 0.012 255);
   --sidebar-ring: oklch(0.53 0.21 23);
-  --gradient-hero: linear-gradient(90deg, oklch(0.12 0.006 260 / 0.95) 0%, oklch(0.12 0.006 260 / 0.7) 45%, oklch(0.12 0.006 260 / 0.1) 100%);
+  --gradient-hero: linear-gradient(
+    90deg,
+    oklch(0.12 0.006 260 / 0.95) 0%,
+    oklch(0.12 0.006 260 / 0.7) 45%,
+    oklch(0.12 0.006 260 / 0.1) 100%
+  );
   --gradient-fade: linear-gradient(to top, var(--carbon) 0%, transparent 40%);
   --shadow-red: 0 20px 50px -15px color-mix(in oklab, var(--primary) 60%, transparent);
   --hero-forged-ink: color-mix(in oklab, var(--carbon-foreground) 88%, transparent);
-  --hero-forged-glow: 0 0 12px color-mix(in oklab, var(--carbon-foreground) 28%, transparent), 0 0 32px color-mix(in oklab, var(--primary) 22%, transparent);
-  --hero-forged-glow-active: 0 0 8px color-mix(in oklab, var(--carbon-foreground) 55%, transparent), 0 0 24px color-mix(in oklab, var(--primary) 50%, transparent), 0 0 48px color-mix(in oklab, var(--primary) 25%, transparent);
+  --hero-forged-glow:
+    0 0 12px color-mix(in oklab, var(--carbon-foreground) 28%, transparent),
+    0 0 32px color-mix(in oklab, var(--primary) 22%, transparent);
+  --hero-forged-glow-active:
+    0 0 8px color-mix(in oklab, var(--carbon-foreground) 55%, transparent),
+    0 0 24px color-mix(in oklab, var(--primary) 50%, transparent),
+    0 0 48px color-mix(in oklab, var(--primary) 25%, transparent);
 }
 
 @theme inline {
@@ -127,12 +137,26 @@
   --font-sans: "Plus Jakarta Sans", sans-serif;
 }
 
-@utility bg-hero-overlay { background-image: var(--gradient-hero); }
-@utility bg-fade-carbon { background-image: var(--gradient-fade); }
-@utility shadow-red { box-shadow: var(--shadow-red); }
+@utility bg-hero-overlay {
+  background-image: var(--gradient-hero);
+}
+@utility bg-fade-carbon {
+  background-image: var(--gradient-fade);
+}
+@utility shadow-red {
+  box-shadow: var(--shadow-red);
+}
 @utility grid-lines {
-  background-image: linear-gradient(color-mix(in oklab, var(--carbon-foreground) 6%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in oklab, var(--carbon-foreground) 6%, transparent) 1px, transparent 1px);
+  background-image:
+    linear-gradient(
+      color-mix(in oklab, var(--carbon-foreground) 6%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--carbon-foreground) 6%, transparent) 1px,
+      transparent 1px
+    );
   background-size: 64px 64px;
 }
 @utility text-outline {
@@ -140,12 +164,38 @@
   -webkit-text-stroke: 1px color-mix(in oklab, var(--carbon-foreground) 35%, transparent);
 }
 
-@keyframes kenburns { from { transform: scale(1.08); } to { transform: scale(1.18) translateX(-2%); } }
-@keyframes rise { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: none; } }
-@keyframes marquee { to { transform: translateX(-50%); } }
-@utility animate-kenburns { animation: kenburns 18s ease-out infinite alternate; }
-@utility animate-rise { animation: rise 1s cubic-bezier(.2,.7,.2,1) both; }
-@utility animate-marquee { animation: marquee 30s linear infinite; }
+@keyframes kenburns {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1.18) translateX(-2%);
+  }
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@utility animate-kenburns {
+  animation: kenburns 18s ease-out infinite alternate;
+}
+@utility animate-rise {
+  animation: rise 1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@utility animate-marquee {
+  animation: marquee 30s linear infinite;
+}
 
 @layer base {
   * {
@@ -157,31 +207,86 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
   }
-  h1, h2, h3 { font-family: var(--font-display); text-transform: uppercase; letter-spacing: -0.01em; }
-  html { scroll-behavior: smooth; }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 @utility bg-showroom {
-  background: radial-gradient(ellipse 70% 60% at 50% 55%, oklch(1 0 0) 0%, var(--muted) 70%, oklch(0.88 0.006 247) 100%);
+  background: radial-gradient(
+    ellipse 70% 60% at 50% 55%,
+    oklch(1 0 0) 0%,
+    var(--muted) 70%,
+    oklch(0.88 0.006 247) 100%
+  );
 }
-model-viewer .hotspot { display: block; background: none; border: 0; padding: 0; cursor: pointer; }
-model-viewer .hotspot:not([data-visible]) { opacity: 0.25; }
-.showroom-stage:fullscreen { background: var(--muted); }
-.capability-stage model-viewer { background: transparent; }
-.capability-stage model-viewer::part(default-progress-bar) { display: none; }
-.capability-stage:fullscreen { height: 100svh; background: var(--background); }
-.capability-point { transition: opacity 0.2s; }
-.capability-point::before { content: ""; position: absolute; inset: -8px; border-radius: 50%; }
-@keyframes capability-tour { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-.capability-tour-progress { transform-origin: left; animation: capability-tour 7s linear; }
-.capability-point:not([data-visible]) { opacity: 0.45; }
-.capability-stage h1, .capability-stage h2 { letter-spacing: 0; }
+model-viewer .hotspot {
+  display: block;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+model-viewer .hotspot:not([data-visible]) {
+  opacity: 0.25;
+}
+.showroom-stage:fullscreen {
+  background: var(--muted);
+}
+.capability-stage model-viewer {
+  background: transparent;
+}
+.capability-stage model-viewer::part(default-progress-bar) {
+  display: none;
+}
+.capability-stage:fullscreen {
+  height: 100svh;
+  background: var(--background);
+}
+.capability-point {
+  transition: opacity 0.2s;
+}
+.capability-point::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+}
+@keyframes capability-tour {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.capability-tour-progress {
+  transform-origin: left;
+  animation: capability-tour 7s linear;
+}
+.capability-point:not([data-visible]) {
+  opacity: 0.45;
+}
+.capability-stage h1,
+.capability-stage h2 {
+  letter-spacing: 0;
+}
 .hero-forged {
   display: inline-block;
   color: var(--hero-forged-ink);
   -webkit-text-stroke: 1px var(--carbon-foreground);
   text-shadow: var(--hero-forged-glow);
-  transition: color 0.35s ease, text-shadow 0.35s ease, transform 0.35s ease;
+  transition:
+    color 0.35s ease,
+    text-shadow 0.35s ease,
+    transform 0.35s ease;
   letter-spacing: 0;
 }
 .hero-forged:hover {
@@ -190,8 +295,258 @@ model-viewer .hotspot:not([data-visible]) { opacity: 0.25; }
   transform: translateY(-2px);
 }
 @media (prefers-reduced-motion: reduce) {
-  .capability-point { transition: none; }
-  .capability-tour-progress { animation: none; display: none; }
-  .hero-forged { transition: none; }
-  .hero-forged:hover { transform: none; }
+  .capability-point {
+    transition: none;
+  }
+  .capability-tour-progress {
+    animation: none;
+    display: none;
+  }
+  .hero-forged {
+    transition: none;
+  }
+  .hero-forged:hover {
+    transform: none;
+  }
+  .reveal-section,
+  .reveal-section.is-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .terrain-row,
+  .terrain-dust {
+    animation: none;
+  }
+}
+
+.reveal-section {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.reveal-section.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.terrain-scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #b7cbd1;
+  animation: terrain-enter 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.terrain-sky,
+.terrain-field,
+.terrain-horizon,
+.terrain-mountain,
+.terrain-sun,
+.terrain-dust {
+  position: absolute;
+}
+
+.terrain-sky {
+  inset: 0 0 40%;
+  background: linear-gradient(180deg, #6c9fb0 0%, #b8d4d1 62%, #e8d5ad 100%);
+}
+
+.terrain-sun {
+  top: 13%;
+  right: 18%;
+  width: 86px;
+  height: 86px;
+  border-radius: 999px;
+  background: #ffe2a2;
+  box-shadow: 0 0 48px 14px rgb(255 226 162 / 35%);
+  animation: sun-breathe 6s ease-in-out infinite alternate;
+}
+
+.terrain-mountain {
+  bottom: 34%;
+  width: 80%;
+  height: 28%;
+  clip-path: polygon(
+    0 100%,
+    15% 55%,
+    27% 75%,
+    43% 24%,
+    58% 68%,
+    72% 40%,
+    88% 73%,
+    100% 50%,
+    100% 100%
+  );
+}
+
+.terrain-mountain-back {
+  left: -12%;
+  background: #789496;
+  opacity: 0.7;
+  transform: scaleY(0.8);
+}
+
+.terrain-mountain-front {
+  right: -16%;
+  background: #536f6e;
+  opacity: 0.82;
+  transform: scaleY(0.72) translateY(16%);
+}
+
+.terrain-horizon {
+  right: 0;
+  bottom: 32%;
+  left: 0;
+  height: 12%;
+  background: linear-gradient(180deg, transparent, rgb(43 66 55 / 42%));
+}
+
+.terrain-field {
+  right: -12%;
+  bottom: -24%;
+  left: -12%;
+  height: 67%;
+  overflow: hidden;
+  transform: perspective(520px) rotateX(52deg);
+  transform-origin: center top;
+  background: linear-gradient(180deg, #7f8a54 0%, #6e743e 50%, #4e4d2d 100%);
+  box-shadow: inset 0 18px 34px rgb(32 42 27 / 25%);
+}
+
+.terrain-field::before,
+.terrain-field::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+}
+
+.terrain-field::before {
+  background: repeating-linear-gradient(
+    175deg,
+    transparent 0 17px,
+    rgb(54 44 25 / 30%) 18px 21px,
+    transparent 22px 38px
+  );
+  opacity: 0.8;
+}
+
+.terrain-field::after {
+  background: linear-gradient(
+    90deg,
+    rgb(41 42 25 / 32%),
+    transparent 24%,
+    transparent 72%,
+    rgb(36 39 24 / 32%)
+  );
+}
+
+.terrain-row {
+  position: absolute;
+  bottom: -10%;
+  width: 12%;
+  height: 120%;
+  border-left: 8px solid rgb(44 39 22 / 34%);
+  border-right: 3px solid rgb(182 166 93 / 25%);
+  filter: blur(0.3px);
+  animation: crop-sway 5s ease-in-out infinite alternate;
+}
+
+.terrain-row-one {
+  left: 9%;
+  transform: rotate(-12deg);
+}
+.terrain-row-two {
+  left: 24%;
+  transform: rotate(-7deg);
+  animation-delay: -1.2s;
+}
+.terrain-row-three {
+  left: 39%;
+  transform: rotate(-2deg);
+  animation-delay: -2.1s;
+}
+.terrain-row-four {
+  left: 55%;
+  transform: rotate(4deg);
+  animation-delay: -0.7s;
+}
+.terrain-row-five {
+  left: 70%;
+  transform: rotate(9deg);
+  animation-delay: -1.7s;
+}
+.terrain-row-six {
+  left: 84%;
+  transform: rotate(14deg);
+  animation-delay: -2.8s;
+}
+
+.terrain-dust {
+  bottom: 24%;
+  width: 34%;
+  height: 7%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgb(231 198 138 / 40%), transparent 70%);
+  filter: blur(8px);
+  animation: dust-drift 7s ease-in-out infinite alternate;
+}
+
+.terrain-dust-one {
+  left: 8%;
+}
+.terrain-dust-two {
+  right: 4%;
+  bottom: 20%;
+  animation-delay: -3s;
+}
+
+.capability-stage.terrain-active model-viewer {
+  filter: saturate(1.05) contrast(1.03);
+  transition: filter 0.8s ease;
+}
+
+@keyframes terrain-enter {
+  from {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes sun-breathe {
+  from {
+    transform: scale(0.96);
+    opacity: 0.8;
+  }
+  to {
+    transform: scale(1.04);
+    opacity: 1;
+  }
+}
+
+@keyframes crop-sway {
+  from {
+    margin-top: 0;
+  }
+  to {
+    margin-top: 7px;
+  }
+}
+
+@keyframes dust-drift {
+  from {
+    transform: translateX(-8px) scale(0.9);
+    opacity: 0.35;
+  }
+  to {
+    transform: translateX(18px) scale(1.15);
+    opacity: 0.7;
+  }
 }

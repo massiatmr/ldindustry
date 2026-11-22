@@ -2,8 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { Loader2, RotateCcw, Maximize, Pause, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { capabilities, mahindra8000, type CapabilityId } from "@/lib/showroom/mahindra8000";
-import terrainImage from "@/assets/kabylie-olive-orchard.jpg";
-
 type Viewer = HTMLElement & { cameraOrbit: string; cameraTarget: string; loaded: boolean };
 export function CapabilityViewer({
   active,
@@ -61,16 +59,26 @@ export function CapabilityViewer({
       ref={wrapper}
       onPointerDown={onInteract}
       data-scene-ready={loaded || undefined}
-      className="capability-stage relative h-full min-h-[410px] overflow-hidden bg-showroom"
+      className={`capability-stage relative h-full min-h-[410px] overflow-hidden bg-showroom ${terrain ? "terrain-active" : "terrain-studio"}`}
     >
       {terrain && (
-        <img
-          src={terrainImage}
-          width={1536}
-          height={1024}
-          alt="Verger d’oliviers, décor illustratif de Kabylie"
-          className="absolute inset-0 h-full w-full object-cover"
-        />
+        <div className="terrain-scene" aria-hidden="true">
+          <div className="terrain-sky" />
+          <div className="terrain-sun" />
+          <div className="terrain-mountain terrain-mountain-back" />
+          <div className="terrain-mountain terrain-mountain-front" />
+          <div className="terrain-horizon" />
+          <div className="terrain-field">
+            <span className="terrain-row terrain-row-one" />
+            <span className="terrain-row terrain-row-two" />
+            <span className="terrain-row terrain-row-three" />
+            <span className="terrain-row terrain-row-four" />
+            <span className="terrain-row terrain-row-five" />
+            <span className="terrain-row terrain-row-six" />
+          </div>
+          <div className="terrain-dust terrain-dust-one" />
+          <div className="terrain-dust terrain-dust-two" />
+        </div>
       )}
       {registered && (
         <model-viewer
@@ -90,7 +98,7 @@ export function CapabilityViewer({
           environment-image="neutral"
           loading="eager"
           {...(rotate ? { "auto-rotate": "", "rotation-per-second": "12deg" } : {})}
-          className="relative h-full w-full"
+          className="relative z-10 h-full w-full"
         >
           {capabilities.map((feature, index) => (
             <Button
