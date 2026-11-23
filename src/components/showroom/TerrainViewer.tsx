@@ -209,28 +209,38 @@ export function TerrainViewer({
       (gltf) => {
         if (disposed) return;
         const object = gltf.scene;
-        const box = new THREE.Box3().setFromObject(object);
-        const naturalSize = box.getSize(new THREE.Vector3());
-        const scale = TRACTOR_SIZE / Math.max(naturalSize.x, naturalSize.y, naturalSize.z);
-        object.scale.setScalar(scale);
-        if (naturalSize.z > naturalSize.x) object.rotation.y = Math.PI / 2;
         object.traverse((child) => {
           if (child instanceof THREE.Mesh) {
             child.castShadow = true;
             child.receiveShadow = true;
           }
         });
-        tractor.add(object);
-        object.updateWorldMatrix(true, true);
-        const scaled = new THREE.Box3().setFromObject(object);
-        const size = scaled.getSize(new THREE.Vector3());
-        const center = scaled.getCenter(new THREE.Vector3());
-        object.position.x -= center.x;
-        object.position.y -= scaled.min.y;
-        object.position.z -= center.z;
-        object.updateWorldMatrix(true, true);
 
+        // Step 1: Measure raw model and compute scale.
+        const rawBox = new THREE.Box3().setFromObject(object);
+        const rawSize = rawBox.getSize(new THREE.Vector3());
+        const rawCenter = rawBox.getCenter(new THREE.Vector3());
+        const scale = TRACTOR_SIZE / Math.max(rawSize.x, rawSize.y, rawSize.z);
+
+        // Step 2: Center the geometry at origin via a wrapper, so rotation
+        // pivots around the tractor's true center — not the GLTF's arbitrary
+        // local origin (which is often offset from the geometry).
+        const wrapper = new THREE.Group();
+        object.scale.setScalar(scale);
+        object.position.set(-rawCenter.x * scale, -rawBox.min.y * scale, -rawCenter.z * scale);
+        wrapper.add(object);
+
+        // Step 3: Rotate the wrapper (pivots around origin = tractor center).
+        if (rawSize.z > rawSize.x) wrapper.rotation.y = Math.PI / 2;
+
+        tractor.add(wrapper);
+        wrapper.updateWorldMatrix(true, true);
+
+        // Step 4: Measure final bounding box for camera setup.
+        const finalBox = new THREE.Box3().setFromObject(wrapper);
+        const size = finalBox.getSize(new THREE.Vector3());
         const centerY = size.y / 2;
+
         controls.target.set(0, centerY, 0);
         const viewRadius = Math.max(size.x, size.z) * 2.6;
         state.viewRadius = viewRadius;
