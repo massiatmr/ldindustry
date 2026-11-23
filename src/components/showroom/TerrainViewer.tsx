@@ -293,11 +293,14 @@ export function TerrainViewer({
         const naturalSize = box.getSize(new THREE.Vector3());
         const scale = TRACTOR_SIZE / Math.max(naturalSize.x, naturalSize.y, naturalSize.z);
         object.scale.setScalar(scale);
+        if (naturalSize.z > naturalSize.x) object.rotation.y = Math.PI / 2;
+        object.updateWorldMatrix(true, true);
         const scaled = new THREE.Box3().setFromObject(object);
         const size = scaled.getSize(new THREE.Vector3());
         const center = scaled.getCenter(new THREE.Vector3());
-        object.position.set(-center.x, -scaled.min.y, -center.z);
-        if (size.z > size.x) object.rotation.y = Math.PI / 2;
+        object.position.x += -center.x;
+        object.position.y += -scaled.min.y;
+        object.position.z += -center.z;
         object.traverse((child) => {
           if (child instanceof THREE.Mesh) {
             child.castShadow = true;
