@@ -225,7 +225,9 @@ export function TerrainViewer({
         const scaled = new THREE.Box3().setFromObject(object);
         const size = scaled.getSize(new THREE.Vector3());
         const center = scaled.getCenter(new THREE.Vector3());
-        object.position.set(-center.x, -scaled.min.y, -center.z);
+        object.position.x -= center.x;
+        object.position.y -= scaled.min.y;
+        object.position.z -= center.z;
         object.updateWorldMatrix(true, true);
 
         const centerY = size.y / 2;
