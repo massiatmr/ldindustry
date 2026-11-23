@@ -117,6 +117,7 @@ export function TerrainViewer({
     anchors: Anchor[];
     hotspotEls: Map<CapabilityId, HTMLButtonElement>;
     cameraGoal: { theta: number; phi: number; radius: number } | null;
+    viewRadius: number;
   } | null>(null);
   const [ready, setReady] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -139,7 +140,6 @@ export function TerrainViewer({
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 900);
-    camera.position.set(7.5, 3.4, 8.5);
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
@@ -198,6 +198,7 @@ export function TerrainViewer({
       anchors,
       hotspotEls,
       cameraGoal: null,
+      viewRadius: 11,
     };
     sceneRef.current = state;
 
@@ -225,7 +226,21 @@ export function TerrainViewer({
         const size = scaled.getSize(new THREE.Vector3());
         const center = scaled.getCenter(new THREE.Vector3());
         object.position.set(-center.x, -scaled.min.y, -center.z);
-        controls.target.set(0, size.y / 2, 0);
+        object.updateWorldMatrix(true, true);
+
+        const centerY = size.y / 2;
+        controls.target.set(0, centerY, 0);
+        const viewRadius = Math.max(size.x, size.z) * 2.6;
+        state.viewRadius = viewRadius;
+        controls.minDistance = viewRadius * 0.35;
+        controls.maxDistance = viewRadius * 4;
+        const initSpherical = new THREE.Spherical(
+          viewRadius,
+          THREE.MathUtils.degToRad(68),
+          THREE.MathUtils.degToRad(140),
+        );
+        camera.position.setFromSpherical(initSpherical).add(controls.target);
+        controls.update();
 
         const unit = TRACTOR_SIZE / Math.max(size.x, size.y, size.z);
         capabilities.forEach((capability) => {
@@ -359,7 +374,7 @@ export function TerrainViewer({
       state.cameraGoal = {
         theta: THREE.MathUtils.degToRad(140),
         phi: THREE.MathUtils.degToRad(68),
-        radius: 11,
+        radius: state.viewRadius,
       };
       return;
     }
@@ -369,7 +384,7 @@ export function TerrainViewer({
     state.cameraGoal = {
       theta,
       phi,
-      radius: Math.max(state.camera.position.distanceTo(state.controls.target) * 0.62, 4.5),
+      radius: Math.max(state.viewRadius * 0.55, 4.5),
     };
   }, [active, ready]);
 
